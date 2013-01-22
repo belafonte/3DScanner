@@ -54,6 +54,6 @@ public:
 	int getCalcWidth();
 
 	int getMask(int y, int x);
-	int setMask(bool value, int y, int x);
+	void setMask(bool value, int y, int x);
 	// end -->
 };

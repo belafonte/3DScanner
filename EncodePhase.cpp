@@ -1,5 +1,5 @@
 #include "EncodePhase.h"
-#include <cmath>
+#include <cmath>// end -->
 #include <string>
 
 cv::Mat toScreenSize(cv::Mat image) {
@@ -10,16 +10,16 @@ cv::Mat toScreenSize(cv::Mat image) {
 	return image;
 }
 
-void loadImages(struct ScanParams* scanParams) {
-	phase1Image = toScreenSize(cv::imread(scanParams->path + "phase1.jpg"));
-	phase2Image = toScreenSize(cv::imread(scanParams->path + "phase2.jpg"));
-	phase3Image = toScreenSize(cv::imread(scanParams->path + "phase3.jpg"));
+void loadImages(ScanParams* scanParams) {
+	phase1Image = toScreenSize(cv::imread(PATH + "phase1.jpg"));
+	phase2Image = toScreenSize(cv::imread(PATH + "phase2.jpg"));
+	phase3Image = toScreenSize(cv::imread(PATH + "phase3.jpg"));
 }
 
-void encodePhase(struct ScanParams* scanParams) {
+void encodePhase( ScanParams* scanParams) {
 	float sqrt3 = std::sqrt(3.f);
-	for(int y = 0; y < scanParams->calcHeight; y++) {
-		for(int x = 0; x < scanParams->calcWidth; x++) {
+	for(int y = 0; y < scanParams->getCalcHeight(); y++) {
+		for(int x = 0; x < scanParams->getCalcWidth(); x++) {
 
 			cv::Vec3b color1 = phase1Image.at<cv::Vec3b>(y,x);
 			cv::Vec3b color2 = phase2Image.at<cv::Vec3b>(y,x);
@@ -33,22 +33,22 @@ void encodePhase(struct ScanParams* scanParams) {
 				- std::min<float>(std::min<float>(phase1, phase2), phase3);
 
 			// nicht sicher über <= operator!
-			scanParams->mask[y][x] = phaseRange <= scanParams->noiseThreshold;
-			scanParams->process[y][x] = !scanParams->mask[y][x];
-			scanParams->distance[y][x] = phaseRange;
-			scanParams->phase[y][x] = std::atan2(sqrt3 * (phase1 - phase3), 2 * phase2 - phase1 - phase3) / (2 * M_PI);
+			scanParams->setMask(phaseRange <= scanParams->getNoiseThreshold(), y, x);
+			scanParams->setProcess(!(scanParams->getMask(y, x)), y, x);
+			scanParams->setDistance(phaseRange, y, x);
+			scanParams->setPhase(std::atan2(sqrt3 * (phase1 - phase3), 2 * phase2 - phase1 - phase3) / (2 * M_PI), y, x);
 
 			//HErausfinden wie blendColor in OPENCV funktioniert!
-			scanParams->colors[y][x] = blend(blend(color1, color2, 1), color3, 1);
+			scanParams->setColors(blend(blend(color1, color2, 1), color3, 1), y, x);
 
-			for(int y = 1; y < scanParams->calcHeight -1; y++) {			// überprüfen ob calcHeight geändert wird!
-				for (int x = 1; x < scanParams->calcWidth -1; x ++) {		// same!
-					if (!scanParams->mask[y][x]) {
-						scanParams->distance[y][x] = (
-							diff(scanParams->phase[y][x], scanParams->phase[y][x - 1]) +
-							diff(scanParams->phase[y][x], scanParams->phase[y][x + 1]) +
-							diff(scanParams->phase[y][x], scanParams->phase[y - 1][x]) +
-							diff(scanParams->phase[y][x], scanParams->phase[y + 1][x])) / scanParams->distance[y][x];
+			for(int y = 1; y < scanParams->getCalcHeight() -1; y++) {			// überprüfen ob calcHeight geändert wird!
+				for (int x = 1; x < scanParams->getCalcWidth() -1; x ++) {		// same!
+					if (!scanParams->getMask(y, x)) {
+						scanParams->setDistance(
+							diff(scanParams->getPhase(y, x), scanParams->getPhase(y, x - 1)) +
+							diff(scanParams->getPhase(y, x), scanParams->getPhase(y, x + 1)) +
+							diff(scanParams->getPhase(y, x), scanParams->getPhase(y - 1, x)) +
+							diff(scanParams->getPhase(y, x), scanParams->getPhase(y + 1,x)), y ,x) / scanParams->getDistance(y, x);
 					}
 				}
 			}

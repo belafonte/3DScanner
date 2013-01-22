@@ -5,9 +5,9 @@ cv::Mat phase1Image, phase2Image, phase3Image;
 
 cv::Mat toScreenSize(cv::Mat image);
 
-void loadImages(struct ScanParams* scanParams);
+void loadImages(ScanParams* scanParams);
 
-void encodePhase(struct ScanParams* scanParams);
+void encodePhase(ScanParams* scanParams);
 
 float averageBrightness(cv::Vec3b color);
 

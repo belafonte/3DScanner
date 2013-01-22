@@ -9,11 +9,11 @@ public:
 	ScanParams(void);
 	~ScanParams(void);
 
-	int vertexCount(struct ScanParams* scanParams);
+	int vertexCount(ScanParams* scanParams);
 
-	void writeVertices(std::ofstream file, struct ScanParams* scanParams);
+	void writeVertices(std::ofstream file,ScanParams* scanParams);
 
-	void exportCloud(struct ScanParams* scanParams);
+	void exportCloud(ScanParams* scanParams);
 
 };
 

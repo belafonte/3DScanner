@@ -6,7 +6,7 @@ ScanParams::ScanParams(int inputWidth, int inputHeight)
 	, noiseThreshold(1)
 	, zScale(1)
 	, zSkew(1)
-	, renderDetail(1)	{	
+	, renderDetail(1) {	
 
 	mask = new bool *[calcHeight] ;
 	for( int i = 0 ; i < calcHeight ; i++ )
@@ -20,21 +20,21 @@ ScanParams::ScanParams(int inputWidth, int inputHeight)
 	for( int i = 0 ; i < calcHeight ; i++ )
 		phase[i] = new float[calcWidth];
 
-	distance = new float *[calcHeight] ;
+	distance = new float *[calcHeight]();
 	for( int i = 0 ; i < calcHeight ; i++ )
-		distance[i] = new float[calcWidth];
+		distance[i] = new float[calcWidth]();
 
-	depth = new float *[calcHeight] ;
+	depth = new float *[calcHeight]() ;
 	for( int i = 0 ; i < calcHeight ; i++ )
-		depth[i] = new float[calcWidth];
+		depth[i] = new float[calcWidth]();
 
-	colors = new cv::Vec3b *[calcHeight] ;
+	colors = new cv::Vec3b *[calcHeight]();
 	for( int i = 0 ; i < calcHeight ; i++ )
-		colors[i] = new cv::Vec3b[calcWidth];
+		colors[i] = new cv::Vec3b[calcWidth]();
 	
-	names = new int *[calcHeight] ;
+	names = new int *[calcHeight]() ;
 	for( int i = 0 ; i < calcHeight ; i++ )
-		names[i] = new int[calcWidth];
+		names[i] = new int[calcWidth]();
 
 }
 
