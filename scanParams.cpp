@@ -8,17 +8,18 @@ ScanParams::ScanParams(int inputWidth, int inputHeight)
 	, zSkew(1)
 	, renderDetail(1) {	
 
-	mask = new bool *[calcHeight] ;
+	// allocate Memory for all Arrays
+	mask = new bool *[calcHeight]() ;
 	for( int i = 0 ; i < calcHeight ; i++ )
-		mask[i] = new bool[calcWidth];
+		mask[i] = new bool[calcWidth]();
 
-	process = new bool *[calcHeight] ;
+	process = new bool *[calcHeight]() ;
 	for( int i = 0 ; i < calcHeight ; i++ )
-		process[i] = new bool[calcWidth];
+		process[i] = new bool[calcWidth]();
 
-	phase = new float *[calcHeight] ;
+	phase = new float *[calcHeight]() ;
 	for( int i = 0 ; i < calcHeight ; i++ )
-		phase[i] = new float[calcWidth];
+		phase[i] = new float[calcWidth]();
 
 	distance = new float *[calcHeight]();
 	for( int i = 0 ; i < calcHeight ; i++ )
@@ -36,12 +37,21 @@ ScanParams::ScanParams(int inputWidth, int inputHeight)
 	for( int i = 0 ; i < calcHeight ; i++ )
 		names[i] = new int[calcWidth]();
 
+	// Path to Images -- setting variable!
+	this->setPath();
+
 }
 
 
 ScanParams::~ScanParams(void) { }
 
 // <-- Setter and Getter Methods
+std::string ScanParams::getPath() {
+	return this->path;
+}
+void ScanParams::setPath() {
+	this->path = PATH;
+}
 
 int ScanParams::getCalcHeight() {
 	return this->calcHeight;
@@ -70,7 +80,7 @@ void ScanParams::setProcess(bool value, int y, int x) {
 float ScanParams::getPhase(int y, int x) {
 	return this->phase[y][x];
 }
-void ScanParams::setPhase(bool value, int y, int x) {
+void ScanParams::setPhase(float value, int y, int x) {
 	this->phase[y][x] = value;
 }
 
@@ -78,7 +88,7 @@ void ScanParams::setPhase(bool value, int y, int x) {
 float ScanParams::getDistance(int y, int x) {
 	return this->distance[y][x];
 }
-void ScanParams::setDistance(bool value, int y, int x) {
+void ScanParams::setDistance(float value, int y, int x) {
 	this->distance[y][x] = value;
 }
 
@@ -86,7 +96,7 @@ void ScanParams::setDistance(bool value, int y, int x) {
 float ScanParams::getDepth(int y, int x) {
 	return this->depth[y][x];
 }
-void ScanParams::setDepth(bool value, int y, int x) {
+void ScanParams::setDepth(float value, int y, int x) {
 	this->depth[y][x] = value;
 }
 
@@ -94,7 +104,7 @@ void ScanParams::setDepth(bool value, int y, int x) {
  cv::Vec3b ScanParams::getColors(int y, int x) {
 	return this->colors[y][x];
 }
-void ScanParams::setColors(bool value, int y, int x) {
+void ScanParams::setColors(cv::Vec3b value, int y, int x) {
 	this->colors[y][x] = value;
 }
 
@@ -102,15 +112,16 @@ void ScanParams::setColors(bool value, int y, int x) {
 int ScanParams::getNames(int y, int x) {
 	return this->names[y][x];
 }
-void ScanParams::setNames(bool value, int y, int x) {
+void ScanParams::setNames(int value, int y, int x) {
 	this->names[y][x] = value;
 }
 
 //runtime variables
+
 float ScanParams::getNoiseThreshold() {
 	return this->noiseThreshold;
 }
-void ScanParams::setNoiseThreshold(bool value) {
+void ScanParams::setNoiseThreshold(float value) {
 	this->noiseThreshold;
 }
 
@@ -118,7 +129,7 @@ void ScanParams::setNoiseThreshold(bool value) {
 float ScanParams::getZScale() {
 	return this->zScale;
 }
-void ScanParams::setZScale(bool value) {
+void ScanParams::setZScale(float value) {
 	this->zScale;
 }
 
@@ -126,7 +137,7 @@ void ScanParams::setZScale(bool value) {
 float ScanParams::getZSkew() {
 	return this->zSkew;
 }
-void ScanParams::setZSkew(bool value) {
+void ScanParams::setZSkew(float value) {
 	this->zSkew;
 }
 
@@ -134,7 +145,7 @@ void ScanParams::setZSkew(bool value) {
 int ScanParams::getRenderDetail() {
 	return this->renderDetail;
 }
-void ScanParams::setRenderDetail(bool value) {
+void ScanParams::setRenderDetail(int value) {
 	this->renderDetail;
 }
 

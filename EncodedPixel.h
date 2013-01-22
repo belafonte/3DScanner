@@ -1,6 +1,8 @@
 #ifndef __ENCODEDPIXEL_H
 #define __ENCODEDPIXEL_H
 
+#include "scanParams.h"
+
 class EncodedPixel
 {
 public:

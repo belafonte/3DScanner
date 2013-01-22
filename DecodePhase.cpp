@@ -15,9 +15,9 @@ void decodePhase(ScanParams* scanParams) {
 		int x = cur.x;
 		int y = cur.y;
 
-		if (scanParams->getProcessy, xS) {
+		if (scanParams->getProcess(x, y)) {
 			scanParams->setPhase(cur.phase, y, x);
-			scanParams->setProcess(false,y ,x);
+			scanParams->setProcess(false, y, x);
 			float d = cur.distance;
 			float r = scanParams->getPhase(y, x);
 
@@ -50,7 +50,7 @@ void decodePhase(int x, int y, float d, float r, ScanParams* scanParams) {
 
 void calcDepth(ScanParams* scanParams) {
 	for (int y = 0; y < scanParams->getCalcHeight(); y+=scanParams->getRenderDetail()) {
-		float planePhase = 0.5 - (y - (scanParams->getCalcHeight() / 2)) / scanParams->getZSkew();		//variable sich ändert
+		float planePhase = 0.5f - (y - (scanParams->getCalcHeight() / 2.f)) / scanParams->getZSkew();		//variable sich ändert
 		for (int x = 0; x < scanParams->getCalcWidth(); x += scanParams->getRenderDetail()) {
 			if (!scanParams->getMask(y, x)) {
 				scanParams->setDepth((scanParams->getPhase(y, x) - planePhase) * scanParams->getZScale(),y ,x);

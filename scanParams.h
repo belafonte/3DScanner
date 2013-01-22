@@ -1,5 +1,8 @@
-// <-- GLOBAL VARIABLES SET BEFORE EXECUTE
+#ifndef __SCANPARAMS_H
+#define __SCANPARAMS_H
 
+// <-- GLOBAL VARIABLES SET BEFORE EXECUTE
+#define _USE_MATH_DEFINES
 #define SCREENHEIGHT 1920
 #define SCREENWIDTH 1080
 #define PATH "insertPathHere"
@@ -8,8 +11,13 @@
 
 // <-- global Library Bindings 
 
-#include <opencv2/opencv.hpp>
 #include <string>
+#include <cmath>
+#include <queue>
+#include <iostream>
+#include <fstream>
+
+#include <opencv2/opencv.hpp>
 
 // end-->
 
@@ -17,7 +25,7 @@ class ScanParams
 {
 private:
 	// <-- const Variables once Set -> readonly
-
+	std::string path;
 	int calcWidth;
 	int calcHeight;
 
@@ -49,7 +57,8 @@ public:
 	~ScanParams(void);
 
 	// <-- Setter and Getter Methods
-
+	std::string getPath();
+	void setPath();
 	int getCalcHeight();
 	int getCalcWidth();
 
@@ -60,33 +69,35 @@ public:
 	void setProcess(bool value, int y, int x);
 
 	float getPhase(int y, int x);
-	void setPhase(bool value, int y, int x);
+	void setPhase(float value, int y, int x);
 	
 	float getDistance(int y, int x);
-	void setDistance(bool value, int y, int x);
+	void setDistance(float value, int y, int x);
 
 	float getDepth(int y, int x);
-	void setDepth(bool value, int y, int x);
+	void setDepth(float value, int y, int x);
 
 	cv::Vec3b getColors(int y, int x);
-	void setColors(bool value, int y, int x);
+	void setColors(cv::Vec3b value, int y, int x);
 
 	int getNames(int y, int x);
-	void setNames(bool value, int y, int x);
+	void setNames(int value, int y, int x);
 
 	//runtime
 
 	float getNoiseThreshold();
-	void setNoiseThreshold(bool value);
+	void setNoiseThreshold(float value);
 
 	float getZScale();
-	void setZScale(bool value);
+	void setZScale(float value);
 
 	float getZSkew();
-	void setZSkew(bool value);
+	void setZSkew(float value);
 
 	int getRenderDetail();
-	void setRenderDetail(bool value);
+	void setRenderDetail(int value);
 
 	// end -->
 };
+
+#endif

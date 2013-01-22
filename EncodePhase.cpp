@@ -1,6 +1,4 @@
 #include "EncodePhase.h"
-#include <cmath>// end -->
-#include <string>
 
 cv::Mat toScreenSize(cv::Mat image) {
 	if (image.cols > SCREENWIDTH) 
@@ -11,9 +9,9 @@ cv::Mat toScreenSize(cv::Mat image) {
 }
 
 void loadImages(ScanParams* scanParams) {
-	phase1Image = toScreenSize(cv::imread(PATH + "phase1.jpg"));
-	phase2Image = toScreenSize(cv::imread(PATH + "phase2.jpg"));
-	phase3Image = toScreenSize(cv::imread(PATH + "phase3.jpg"));
+	phase1Image = toScreenSize(cv::imread(scanParams->getPath() + "phase1.jpg"));
+	phase2Image = toScreenSize(cv::imread(scanParams->getPath() + "phase2.jpg"));
+	phase3Image = toScreenSize(cv::imread(scanParams->getPath() + "phase3.jpg"));
 }
 
 void encodePhase( ScanParams* scanParams) {
@@ -39,7 +37,7 @@ void encodePhase( ScanParams* scanParams) {
 			scanParams->setPhase(std::atan2(sqrt3 * (phase1 - phase3), 2 * phase2 - phase1 - phase3) / (2 * M_PI), y, x);
 
 			//HErausfinden wie blendColor in OPENCV funktioniert!
-			scanParams->setColors(blend(blend(color1, color2, 1), color3, 1), y, x);
+			scanParams->setColors((blend(blend(color1, color2, 1), color3, 1)), y, x);
 
 			for(int y = 1; y < scanParams->getCalcHeight() -1; y++) {			// überprüfen ob calcHeight geändert wird!
 				for (int x = 1; x < scanParams->getCalcWidth() -1; x ++) {		// same!
@@ -48,7 +46,9 @@ void encodePhase( ScanParams* scanParams) {
 							diff(scanParams->getPhase(y, x), scanParams->getPhase(y, x - 1)) +
 							diff(scanParams->getPhase(y, x), scanParams->getPhase(y, x + 1)) +
 							diff(scanParams->getPhase(y, x), scanParams->getPhase(y - 1, x)) +
-							diff(scanParams->getPhase(y, x), scanParams->getPhase(y + 1,x)), y ,x) / scanParams->getDistance(y, x);
+							diff(scanParams->getPhase(y, x), scanParams->getPhase(y + 1, x)) / 
+							(scanParams->getDistance(y, x)), 
+						y, x);
 					}
 				}
 			}

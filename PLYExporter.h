@@ -1,19 +1,20 @@
-#pragma once
-#include "scanParams.h"
-#include <iostream>
-#include <fstream>
+#ifndef __PLYEXPORTER_H
+#define __PLYEXPORTER_H
 
-class ScanParams
+#include "scanParams.h"
+
+class PLYExporter
 {
 public:
-	ScanParams(void);
-	~ScanParams(void);
+	PLYExporter(void);
+	~PLYExporter(void);
 
 	int vertexCount(ScanParams* scanParams);
 
-	void writeVertices(std::ofstream file,ScanParams* scanParams);
+	void writeVertices(std::ofstream &file,ScanParams* scanParams);
 
 	void exportCloud(ScanParams* scanParams);
 
 };
 
+#endif
