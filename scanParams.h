@@ -54,6 +54,39 @@ public:
 	int getCalcWidth();
 
 	int getMask(int y, int x);
-	int setMask(bool value, int y, int x);
+	void setMask(bool value, int y, int x);
+
+	int getProcess(int y, int x);
+	void setProcess(bool value, int y, int x);
+
+	float getPhase(int y, int x);
+	void setPhase(bool value, int y, int x);
+	
+	float getDistance(int y, int x);
+	void setDistance(bool value, int y, int x);
+
+	float getDepth(int y, int x);
+	void setDepth(bool value, int y, int x);
+
+	cv::Vec3b getColors(int y, int x);
+	void setColors(bool value, int y, int x);
+
+	int getNames(int y, int x);
+	void setNames(bool value, int y, int x);
+
+	//runtime
+
+	float getNoiseThreshold();
+	void setNoiseThreshold(bool value);
+
+	float getZScale();
+	void setZScale(bool value);
+
+	float getZSkew();
+	void setZSkew(bool value);
+
+	int getRenderDetail();
+	void setRenderDetail(bool value);
+
 	// end -->
 };
