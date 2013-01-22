@@ -1,1 +1,11 @@
 # git ignore file
+*.manifest
+*.res
+*.lastbuildstate
+*.tlog
+*.obj
+*.pdb
+*.unsuccessfulbuild
+*.log
+*.rc
+*.idb
