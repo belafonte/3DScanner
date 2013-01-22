@@ -1,6 +1,6 @@
 #include "DecodePhase.h"
 
-void dencodePhase(struct ScanParams* scanParams) {
+void decodePhase(struct ScanParams* scanParams) {
 	int startX = scanParams->calcWidth / 2;		// überprüfen ob variable sich ändert!
 	int startY = scanParams->calcHeight / 2;
 
@@ -22,16 +22,16 @@ void dencodePhase(struct ScanParams* scanParams) {
 			float r = scanParams->phase[y][x];
 
 			if(y > 0) {
-				dencodePhase(x, y-1, d, r, scanParams);
+				decodePhase(x, y-1, d, r, scanParams);
 			} 
 			if (y < scanParams->calcHeight-1) {
-				dencodePhase(x, y+1, d, r, scanParams);
+				decodePhase(x, y+1, d, r, scanParams);
 			}
 			if (x > 0) {
-				dencodePhase(x-1, y, d, r, scanParams);
+				decodePhase(x-1, y, d, r, scanParams);
 			}
 			if (x < scanParams->calcWidth-1) {
-				dencodePhase(x+1, y, d, r, scanParams);
+				decodePhase(x+1, y, d, r, scanParams);
 			}
 		}
 	}

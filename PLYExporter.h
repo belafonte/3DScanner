@@ -3,11 +3,11 @@
 #include <iostream>
 #include <fstream>
 
-class PLYExporter
+class ScanParams
 {
 public:
-	PLYExporter(void);
-	~PLYExporter(void);
+	ScanParams(void);
+	~ScanParams(void);
 
 	int vertexCount(struct ScanParams* scanParams);
 

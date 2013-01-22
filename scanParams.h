@@ -1,33 +1,59 @@
+// <-- GLOBAL VARIABLES SET BEFORE EXECUTE
+
 #define SCREENHEIGHT 1920
 #define SCREENWIDTH 1080
+#define PATH "insertPathHere"
+
+// end -->
+
+// <-- global Library Bindings 
 
 #include <opencv2/opencv.hpp>
 #include <string>
 
-void setParams(int calcHeight, int calcWidth);
+// end-->
 
-struct ScanParams {
-
-	std::string path;
+class ScanParams
+{
+private:
+	// <-- const Variables once Set -> readonly
 
 	int calcWidth;
 	int calcHeight;
 
-	// change to c++ vector! ---->
-	// change dynamic array!
-	//float *phase2 = new float[calcHeight];
-	float phase[SCREENHEIGHT][SCREENWIDTH];
-	float distance[SCREENHEIGHT][SCREENWIDTH];
-	float depth[SCREENHEIGHT][SCREENWIDTH];
-	bool mask[SCREENHEIGHT][SCREENWIDTH];
-	bool process[SCREENHEIGHT][SCREENWIDTH];
-	cv::Vec3b colors[SCREENHEIGHT][SCREENWIDTH];
-	int names[SCREENHEIGHT][SCREENWIDTH];
+	// end -->
 
-	// <-----
+	// <-- dynamic array
+	// für die ganzen Variable mit index x, y
+
+	bool **mask;
+	bool **process;
+	float **phase;
+	float **distance;
+	float **depth;
+	cv::Vec3b **colors;
+	int **names;
+
+	// end -->
+
+	// <-- runtime Variables 
 
 	float noiseThreshold;
 	float zScale;
 	float zSkew;
 	int renderDetail;
+
+	// end -->
+public:
+	ScanParams(int calcWidth, int calcHeight);
+	~ScanParams(void);
+
+	// <-- Setter and Getter Methods
+
+	int getCalcHeight();
+	int getCalcWidth();
+
+	int getMask(int y, int x);
+	int setMask(bool value, int y, int x);
+	// end -->
 };
