@@ -3,7 +3,7 @@
 #include "EncodedPixel.h"
 #include "scanParams.h"
 
-std::priority_queue<EncodedPixel> toProcess;
+std::priority_queue<EncodedPixel*> toProcess;
 long position;
 
 void dencodePhase(struct ScanParams* scanParams);

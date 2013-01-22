@@ -6,10 +6,11 @@ void dencodePhase(struct ScanParams* scanParams) {
 
 
 	// rausfinden was da los ist!
-	toProcess.push(new EncodedPixel(startX, startY, 0, scanParams->phase[startY], startX));
+	toProcess.push(new EncodedPixel(startX, startY, 0, scanParams->phase[startY][startX]));
 
 	while (!toProcess.empty()) {
-		EncodedPixel cur = (EncodedPixel) toProcess.pop();
+		EncodedPixel const cur =  (EncodedPixel) *toProcess.top();  // vielleicht fehler!
+		toProcess.pop();
 
 		int x = cur.x;
 		int y = cur.y;
@@ -43,7 +44,7 @@ void decodePhase(int x, int y, float d, float r, struct ScanParams* scanParams) 
 			diff--;
 		if(diff < 0.5) 
 			diff++;
-		toProcess.push();		// ebenso rausfinden mit priority queue!
+		toProcess.push(new EncodedPixel(x, y, d + scanParams->distance[y][x], r + diff));		// ebenso rausfinden mit priority queue!
 	}
 } 
 

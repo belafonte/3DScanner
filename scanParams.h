@@ -4,6 +4,7 @@
 #include <opencv2/opencv.hpp>
 #include <string>
 
+void setParams(int calcHeight, int calcWidth);
 
 struct ScanParams {
 
@@ -14,7 +15,7 @@ struct ScanParams {
 
 	// change to c++ vector! ---->
 	// change dynamic array!
-	float *phase2 = new float[calcHeight];
+	//float *phase2 = new float[calcHeight];
 	float phase[SCREENHEIGHT][SCREENWIDTH];
 	float distance[SCREENHEIGHT][SCREENWIDTH];
 	float depth[SCREENHEIGHT][SCREENWIDTH];
