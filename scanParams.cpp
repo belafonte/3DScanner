@@ -1,12 +1,12 @@
 #include "scanParams.h"
 
-ScanParams::ScanParams(int inputWidth, int inputHeight)
-	: calcWidth(inputWidth)
-	, calcHeight(inputHeight)
-	, noiseThreshold(1)
-	, zScale(1)
-	, zSkew(1)
-	, renderDetail(1) {	
+ScanParams::ScanParams(int inputHeight, int inputWidth)
+	: calcHeight(inputHeight)
+	, calcWidth(inputWidth)
+	, noiseThreshold( 0.1)
+	, zScale(130)
+	, zSkew(24)
+	, renderDetail(2) {	
 
 	// allocate Memory for all Arrays
 	mask = new bool *[calcHeight]() ;

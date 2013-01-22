@@ -7,5 +7,18 @@ using namespace std;
 using namespace cv;
 
 int main(void) {
-	ScanParams* scanParams = new ScanParams(1280, 1980);
+	DecodePhase* decodePhase = new DecodePhase();
+	EncodePhase* encodePhase = new EncodePhase();
+	PLYExporter* plyExporter = new PLYExporter();
+
+	encodePhase->loadImages();
+	ScanParams* scanParams = new ScanParams(encodePhase->phase1Image.rows, encodePhase->phase1Image.cols);
+	encodePhase->encodePhase(scanParams);
+	//decodePhase->decodePhase(scanParams);
+
+	//plyExporter->exportCloud(scanParams);
+
+	cout << encodePhase->phase1Image.rows << encodePhase->phase1Image.cols << endl;
+	cin.get();
+	return 0;
 }

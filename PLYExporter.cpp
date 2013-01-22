@@ -31,7 +31,7 @@ void PLYExporter::writeVertices(std::ofstream &file, ScanParams* scanParams) {
 }
 
 void PLYExporter::exportCloud(ScanParams* scanParams) {
-	std::ofstream file("file.ply");
+	std::ofstream file(PATH"cloud.ply");
 	file << "ply\n";
 	file << "format ascii 1.0\n";
 	file << "element vertex " << PLYExporter::vertexCount(scanParams) << "\n";

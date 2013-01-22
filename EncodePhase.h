@@ -2,6 +2,7 @@
 #define __ENCODEPHASE_H
 
 #include "scanParams.h"
+
 class EncodePhase
 {
 public:
@@ -12,7 +13,7 @@ public:
 
 	cv::Mat toScreenSize(cv::Mat image);
 
-	void loadImages(ScanParams* scanParams);
+	void loadImages();
 
 	void encodePhase(ScanParams* scanParams);
 

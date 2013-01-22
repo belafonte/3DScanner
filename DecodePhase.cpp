@@ -1,5 +1,9 @@
 #include "DecodePhase.h"
 
+DecodePhase::DecodePhase(void) { }
+
+DecodePhase::~DecodePhase(void) { }
+
 void DecodePhase::decodePhase(ScanParams* scanParams) {
 	int startX = scanParams->getCalcWidth() / 2;		// überprüfen ob variable sich ändert!
 	int startY = scanParams->getCalcHeight() / 2;

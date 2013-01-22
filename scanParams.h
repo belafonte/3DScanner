@@ -3,8 +3,8 @@
 
 // <-- GLOBAL VARIABLES SET BEFORE EXECUTE
 #define _USE_MATH_DEFINES
-#define SCREENHEIGHT 1920
-#define SCREENWIDTH 1080
+#define SCREENHEIGHT 640
+#define SCREENWIDTH 480
 #define PATH "C:/Users/BEL/Uni/5. Semester/AVPRG/scannedPhotos/"
 
 // end -->

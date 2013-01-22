@@ -1,5 +1,9 @@
 #include "EncodePhase.h"
 
+EncodePhase::EncodePhase(void) { }
+
+EncodePhase::~EncodePhase(void) { }
+
 cv::Mat EncodePhase::toScreenSize(cv::Mat image) {
 	if (image.cols > SCREENWIDTH) 
 		cv::resize(image, image,cv::Size(SCREENWIDTH, (image.rows * SCREENHEIGHT) / image.cols));
@@ -8,10 +12,10 @@ cv::Mat EncodePhase::toScreenSize(cv::Mat image) {
 	return image;
 }
 
-void EncodePhase::loadImages(ScanParams* scanParams) {
-	this->phase1Image = EncodePhase::toScreenSize(cv::imread(scanParams->getPath() + "phase1.jpg"));
-	this->phase2Image = EncodePhase::toScreenSize(cv::imread(scanParams->getPath() + "phase2.jpg"));
-	this->phase3Image = EncodePhase::toScreenSize(cv::imread(scanParams->getPath() + "phase3.jpg"));
+void EncodePhase::loadImages() {
+	this->phase1Image = EncodePhase::toScreenSize(cv::imread(PATH"phase1.jpg"));
+	this->phase2Image = EncodePhase::toScreenSize(cv::imread(PATH"phase2.jpg"));
+	this->phase3Image = EncodePhase::toScreenSize(cv::imread(PATH"phase3.jpg"));
 }
 
 void EncodePhase::encodePhase( ScanParams* scanParams) {
