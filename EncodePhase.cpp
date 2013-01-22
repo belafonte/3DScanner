@@ -1,6 +1,6 @@
 #include "EncodePhase.h"
 
-cv::Mat toScreenSize(cv::Mat image) {
+cv::Mat EncodePhase::toScreenSize(cv::Mat image) {
 	if (image.cols > SCREENWIDTH) 
 		cv::resize(image, image,cv::Size(SCREENWIDTH, (image.rows * SCREENHEIGHT) / image.cols));
 	if (image.rows > SCREENHEIGHT)
@@ -8,13 +8,13 @@ cv::Mat toScreenSize(cv::Mat image) {
 	return image;
 }
 
-void loadImages(ScanParams* scanParams) {
-	phase1Image = toScreenSize(cv::imread(scanParams->getPath() + "phase1.jpg"));
-	phase2Image = toScreenSize(cv::imread(scanParams->getPath() + "phase2.jpg"));
-	phase3Image = toScreenSize(cv::imread(scanParams->getPath() + "phase3.jpg"));
+void EncodePhase::loadImages(ScanParams* scanParams) {
+	this->phase1Image = EncodePhase::toScreenSize(cv::imread(scanParams->getPath() + "phase1.jpg"));
+	this->phase2Image = EncodePhase::toScreenSize(cv::imread(scanParams->getPath() + "phase2.jpg"));
+	this->phase3Image = EncodePhase::toScreenSize(cv::imread(scanParams->getPath() + "phase3.jpg"));
 }
 
-void encodePhase( ScanParams* scanParams) {
+void EncodePhase::encodePhase( ScanParams* scanParams) {
 	float sqrt3 = std::sqrt(3.f);
 	for(int y = 0; y < scanParams->getCalcHeight(); y++) {
 		for(int x = 0; x < scanParams->getCalcWidth(); x++) {
@@ -23,9 +23,9 @@ void encodePhase( ScanParams* scanParams) {
 			cv::Vec3b color2 = phase2Image.at<cv::Vec3b>(y,x);
 			cv::Vec3b color3 = phase3Image.at<cv::Vec3b>(y,x);
 
-			float phase1 = averageBrightness(color1);
-			float phase2 = averageBrightness(color2);
-			float phase3 = averageBrightness(color3);
+			float phase1 = EncodePhase::averageBrightness(color1);
+			float phase2 = EncodePhase::averageBrightness(color2);
+			float phase3 = EncodePhase::averageBrightness(color3);
 
 			float phaseRange = std::max<float>(std::max<float>(phase1, phase2), phase3)
 				- std::min<float>(std::min<float>(phase1, phase2), phase3);
@@ -43,10 +43,10 @@ void encodePhase( ScanParams* scanParams) {
 				for (int x = 1; x < scanParams->getCalcWidth() -1; x ++) {		// same!
 					if (!scanParams->getMask(y, x)) {
 						scanParams->setDistance(
-							diff(scanParams->getPhase(y, x), scanParams->getPhase(y, x - 1)) +
-							diff(scanParams->getPhase(y, x), scanParams->getPhase(y, x + 1)) +
-							diff(scanParams->getPhase(y, x), scanParams->getPhase(y - 1, x)) +
-							diff(scanParams->getPhase(y, x), scanParams->getPhase(y + 1, x)) / 
+							EncodePhase::diff(scanParams->getPhase(y, x), scanParams->getPhase(y, x - 1)) +
+							EncodePhase::diff(scanParams->getPhase(y, x), scanParams->getPhase(y, x + 1)) +
+							EncodePhase::diff(scanParams->getPhase(y, x), scanParams->getPhase(y - 1, x)) +
+							EncodePhase::diff(scanParams->getPhase(y, x), scanParams->getPhase(y + 1, x)) / 
 							(scanParams->getDistance(y, x)), 
 						y, x);
 					}
@@ -56,20 +56,20 @@ void encodePhase( ScanParams* scanParams) {
 	}
 }
 
-float averageBrightness(cv::Vec3b color) {
+float EncodePhase::averageBrightness(cv::Vec3b color) {
 	return (color[0] + color[1] + color[2]) / (255 * 3);
 }
 
-float diff(float a, float b) {
+float EncodePhase::diff(float a, float b) {
 	float d = a < b ? b - a : a - b;
 	return d < .5 ? d : 1 - d;
 }
 
-cv::Vec3b blend(cv::Vec3b pixel1, cv::Vec3b pixel2, int mode) {
+cv::Vec3b EncodePhase::blend(cv::Vec3b pixel1, cv::Vec3b pixel2, int mode) {
 	cv::Vec3b out = 0;
 	if (mode == 1) {
-		int tmpPixel1 = averageBrightness(pixel1); 
-		int tmpPixel2 = averageBrightness(pixel2);
+		int tmpPixel1 = EncodePhase::averageBrightness(pixel1); 
+		int tmpPixel2 = EncodePhase::averageBrightness(pixel2);
 		out = std::max(tmpPixel1, tmpPixel2);
 	}
 	return out;

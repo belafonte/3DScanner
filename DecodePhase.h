@@ -4,13 +4,19 @@
 #include "EncodedPixel.h"
 #include "scanParams.h"
 
-std::priority_queue<EncodedPixel*> toProcess;
-long position;
+class DecodePhase
+{
+public:
+	DecodePhase(void);
+	~DecodePhase(void);
 
-void decodePhase(ScanParams* scanParams);
+	std::priority_queue<EncodedPixel*> toProcess;
 
-void decodePhase(int x, int y, float d, float r, ScanParams* scanParams);
+	void decodePhase(ScanParams* scanParams);
 
-void calcDepth(ScanParams* scanParams);
+	void decodePhase(int x, int y, float d, float r, ScanParams* scanParams);
 
+	void calcDepth(ScanParams* scanParams);
+
+};
 #endif

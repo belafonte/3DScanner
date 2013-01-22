@@ -5,7 +5,7 @@
 #define _USE_MATH_DEFINES
 #define SCREENHEIGHT 1920
 #define SCREENWIDTH 1080
-#define PATH "insertPathHere"
+#define PATH "C:/Users/BEL/Uni/5. Semester/AVPRG/scannedPhotos/"
 
 // end -->
 

@@ -1,12 +1,12 @@
 #include "DecodePhase.h"
 
-void decodePhase(ScanParams* scanParams) {
+void DecodePhase::decodePhase(ScanParams* scanParams) {
 	int startX = scanParams->getCalcWidth() / 2;		// überprüfen ob variable sich ändert!
 	int startY = scanParams->getCalcHeight() / 2;
 
 
 	// rausfinden was da los ist!
-	toProcess.push(new EncodedPixel(startX, startY, 0, scanParams->getPhase(startY, startX)));
+	this->toProcess.push(new EncodedPixel(startX, startY, 0, scanParams->getPhase(startY, startX)));
 
 	while (!toProcess.empty()) {
 		EncodedPixel const cur =  (EncodedPixel) *toProcess.top();  // vielleicht fehler!
@@ -22,22 +22,22 @@ void decodePhase(ScanParams* scanParams) {
 			float r = scanParams->getPhase(y, x);
 
 			if(y > 0) {
-				decodePhase(x, y-1, d, r, scanParams);
+				DecodePhase::decodePhase(x, y-1, d, r, scanParams);
 			} 
 			if (y < scanParams->getCalcHeight() - 1) {
-				decodePhase(x, y+1, d, r, scanParams);
+				DecodePhase::decodePhase(x, y+1, d, r, scanParams);
 			}
 			if (x > 0) {
-				decodePhase(x-1, y, d, r, scanParams);
+				DecodePhase::decodePhase(x-1, y, d, r, scanParams);
 			}
 			if (x < scanParams->getCalcWidth() - 1) {
-				decodePhase(x+1, y, d, r, scanParams);
+				DecodePhase::decodePhase(x+1, y, d, r, scanParams);
 			}
 		}
 	}
 }
 
-void decodePhase(int x, int y, float d, float r, ScanParams* scanParams) {
+void DecodePhase::decodePhase(int x, int y, float d, float r, ScanParams* scanParams) {
 	if(scanParams->getProcess(y, x)) {
 		float diff = scanParams->getPhase(y, x) - (r - (int) r);  // überprüfen ob variable sich ändert
 		if(diff > 0.5) 
@@ -48,7 +48,7 @@ void decodePhase(int x, int y, float d, float r, ScanParams* scanParams) {
 	}
 } 
 
-void calcDepth(ScanParams* scanParams) {
+void DecodePhase::calcDepth(ScanParams* scanParams) {
 	for (int y = 0; y < scanParams->getCalcHeight(); y+=scanParams->getRenderDetail()) {
 		float planePhase = 0.5f - (y - (scanParams->getCalcHeight() / 2.f)) / scanParams->getZSkew();		//variable sich ändert
 		for (int x = 0; x < scanParams->getCalcWidth(); x += scanParams->getRenderDetail()) {
