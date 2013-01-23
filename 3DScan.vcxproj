@@ -50,6 +50,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <TreatWarningAsError>false</TreatWarningAsError>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -88,6 +89,9 @@
     <ClCompile Include="PLYExporter.cpp" />
     <ClCompile Include="RunScanner.cpp" />
     <ClCompile Include="scanParams.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="scanParamsOLD.h.orig" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

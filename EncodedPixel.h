@@ -10,7 +10,8 @@ public:
 	~EncodedPixel(void);
 public:
 	int x, y;
-	float distance, phase;
+	float distance;
+	float phase;
 };
 
 #endif

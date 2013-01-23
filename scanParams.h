@@ -23,7 +23,7 @@
 
 class ScanParams
 {
-private:
+public:
 	// <-- const Variables once Set -> readonly
 	std::string path;
 	int calcWidth;

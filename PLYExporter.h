@@ -15,6 +15,16 @@ public:
 
 	void exportCloud(ScanParams* scanParams);
 
+
+
+	int faceCount(ScanParams* scanParams);
+
+	void writeFace(std::ofstream &file, int a, int b, int c);
+
+	void writeFaces(std::ofstream &file, ScanParams* scanParams);
+
+	void exportMesh(ScanParams* scanParams);
+
 };
 
 #endif
