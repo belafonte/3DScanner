@@ -50,7 +50,7 @@ void EncodePhase::encodePhase(ScanParams* scanParams) {
 			//std::cout << scanParams->getMask(y, x) <<  "hello process" << x << y <<  std::endl;
 			scanParams->setDistance(phaseRange, y, x);
 			
-			scanParams->setPhase((float)std::atan2(sqrt3 * (phase1 - phase3), 2 * phase2 - phase1 - phase3) / (2 * M_PI), y, x);
+			scanParams->setPhase((float) (std::atan2(sqrt3 * (phase1 - phase3), 2 * phase2 - phase1 - phase3) / (2 * M_PI)), y, x);
 
 			//HErausfinden wie blendColor in OPENCV funktioniert!
 			scanParams->setColors((blend(blend(color1, color2, 1), color3, 1)), y, x);
@@ -87,11 +87,15 @@ float EncodePhase::diff(float a, float b) {
 }
 
 cv::Vec3b EncodePhase::blend(cv::Vec3b pixel1, cv::Vec3b pixel2, int mode) {
-	cv::Vec3b out = 0;
+	cv::Vec3b out = NULL;
 	if (mode == 1) {
-		int tmpPixel1 = EncodePhase::averageBrightness(pixel1); 
-		int tmpPixel2 = EncodePhase::averageBrightness(pixel2);
-		out = std::max(tmpPixel1, tmpPixel2);
+		float tmpPixel1 = EncodePhase::averageBrightness(pixel1); 
+		float tmpPixel2 = EncodePhase::averageBrightness(pixel2);
+		float matchOut = std::max(tmpPixel1, tmpPixel2);
+		if (matchOut == tmpPixel1) {
+			return pixel1;
+		}
+		else return pixel2;
 	}
 	return out;
 }

@@ -20,12 +20,15 @@ void PLYExporter::writeVertices(std::ofstream &file, ScanParams* scanParams) {
 		for (int x = 0; x < scanParams->getCalcWidth(); x += scanParams->getRenderDetail())
 			if (!scanParams->getMask(y, x)) {
 				cv::Vec3b cur = (cv::Vec3b) scanParams->getColors(y, x);
+				int red = cur[2];
+				int green = cur[1];
+				int blue = cur[0];
 				file << x << " " <<
 					(scanParams->getCalcHeight() - y) << " " <<
 					scanParams->getDepth(y, x) << " " <<
-					(int) cur[2] << " " << 
-					(int) cur[1] << " " << 
-					(int) cur[0] << "\n";
+					red << " " << 
+					green << " " << 
+					blue << "\n";
 			}
 }
 

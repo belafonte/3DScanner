@@ -10,11 +10,11 @@ public:
 	DecodePhase(void);
 	~DecodePhase(void);
 
-	std::priority_queue<EncodedPixel*> toProcess;
+	std::vector<EncodedPixel*> toProcess;
 
 	void decodePhase(ScanParams* scanParams);
 
-	void decodePhase(int x, int y, float d, float r, ScanParams* scanParams);
+	void decodePhase(int x, int y, float r, ScanParams* scanParams);
 
 	void calcDepth(ScanParams* scanParams);
 

@@ -25,24 +25,6 @@ int main(void) {
 	encodePhase->encodePhase(scanParams);
 	cout<<"decode phase..."<<endl;
 	cout<<"decode phase 2..."<<endl;
-	//cin.get();
-	//bool tmpVar = scanParams->process;
-
-	/*cout << sizeof(tmpVar) << endl;
-	scanParams->setProcess(false, 10000, 100000);
-	scanParams->setProcess(false, 1, 1);
-	cout << scanParams->getProcess(1, 1) << endl;
-	scanParams->setProcess(true, 1, 1);
-	cout << scanParams->getProcess(1, 1) << endl;
-
-	for(int y = 0; y < scanParams->getCalcHeight(); y++) {
-		for (int x = 0; x < scanParams->getCalcWidth(); x++) {
-			cout << scanParams->getProcess(y, x) << endl;
-		}
-	}
-	cin.get();*/
-	
-
 	decodePhase->decodePhase(scanParams);
 	cout<<"calc depth..."<<endl;
 	decodePhase->calcDepth(scanParams);

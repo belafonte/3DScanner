@@ -3,7 +3,7 @@
 ScanParams::ScanParams(int inputHeight, int inputWidth)
 	: calcHeight(inputHeight)
 	, calcWidth(inputWidth)
-	, noiseThreshold( 0.1)
+	, noiseThreshold( 0.4)
 	, zScale(130)
 	, zSkew(24)
 	, renderDetail(2) {	
