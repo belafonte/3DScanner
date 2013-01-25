@@ -68,6 +68,36 @@ int CamCalib::camCalib()
 	cout<<"select video input"<<endl;
 	cin >> videoInputNr;
 	VideoCapture capture = VideoCapture(videoInputNr);
+	
+	int hor = capture.get(CV_CAP_PROP_FRAME_WIDTH);
+	int vert = capture.get(CV_CAP_PROP_FRAME_HEIGHT);
+	
+
+	cout<< "die ausgewaehlte kamera arbeitet mit einer Aufloesung von "<<hor<<" auf "<<vert<<endl;
+	waitKey();
+	
+	cout<<"hoehere kameraaufloesung waehlen? "<<endl;
+	cout<<"1: 640 x 480 "<<endl;
+	cout<<"2: 800 x 600 "<<endl;
+	cout<<"3: 1280 x 960 "<<endl;
+	int res = 0;
+	cin >> res;
+	if (res == 1)
+	{
+
+		capture.set(CV_CAP_PROP_FRAME_WIDTH,640);
+		capture.set(CV_CAP_PROP_FRAME_HEIGHT,480);
+	}
+	else if(res == 2){
+		capture.set(CV_CAP_PROP_FRAME_WIDTH,800);
+		capture.set(CV_CAP_PROP_FRAME_HEIGHT,600);
+	}
+	else if(res == 3){
+		capture.set(CV_CAP_PROP_FRAME_WIDTH,1280);
+		capture.set(CV_CAP_PROP_FRAME_HEIGHT,960);
+	}
+
+	else {cout<<"keine aenderung vorgenommen"<<endl;}
 
 	//Vektoren
 
@@ -82,7 +112,7 @@ int CamCalib::camCalib()
 	Mat image;
 	Mat greyImage;
 
-	//schnappschuss
+	//auf mat
 	capture >> image;
 
 
@@ -94,7 +124,11 @@ int CamCalib::camCalib()
 
 	//An important point here is that you’re essentially setting up the units of calibration. Suppose the squares in your chessboards were 30mm in size, and you supplied these coordinates as (0,0,0), (0, 30, 0), etc, you’d get all unknowns in millimeters.
 
+	
+	
+
 	//Schleife solange numShots groesser als successes
+
 	while(successes<numShots)
 	{
 		//graukonvertierung des kamerabilds
@@ -112,12 +146,15 @@ int CamCalib::camCalib()
 
 		//anzeigen der bilder
 		
-		imshow("win1", greyImage);
+		//imshow("win1", image);
+		
+		imshow("win2", greyImage);
+		
 
 		//neuer frame
 
 		capture >> image;
-
+		
 		int key = waitKey(1);
 
 		//speichern der zahlen und schleifenbruch
@@ -128,8 +165,8 @@ int CamCalib::camCalib()
 
 		if(key==27)
 			break;
-
-		if(found!=0)
+	
+		if(found!=0 && (key==32))
 		{
 			image_points.push_back(corners);
 			object_points.push_back(obj);
@@ -163,11 +200,13 @@ int CamCalib::camCalib()
 	cout<<"calibration done."<<endl;
 
 
-
 	cout<<"show undistorted image..."<<endl;
 	Mat imageUndistorted;
 	while(1)
 	{
+
+
+
 		capture >> image;
 		undistort(image, imageUndistorted, intrinsic, distCoeffs);
 
@@ -176,9 +215,12 @@ int CamCalib::camCalib()
 		waitKey(1);
 
 
+
+
 	}
 
 	capture.release();
+	destroyWindow("win2");
 
 	return 0;
 
