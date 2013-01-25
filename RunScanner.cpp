@@ -11,7 +11,7 @@ int main(void) {
 	EncodePhase* encodePhase = new EncodePhase();
 	PLYExporter* plyExporter = new PLYExporter();
 
-	
+
 
 	cout<<"scan params..."<<endl;
 	ScanParams* scanParams = new ScanParams(640, 480);

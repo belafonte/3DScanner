@@ -6,16 +6,19 @@ EncodePhase::~EncodePhase(void) { }
 
 cv::Mat EncodePhase::toScreenSize(cv::Mat image) {
 	if (image.cols > SCREENWIDTH) 
-		cv::resize(image, image,cv::Size(SCREENWIDTH, (image.rows * SCREENHEIGHT) / image.cols));
+		cv::resize(image, image,cv::Size(SCREENWIDTH,
+		(image.rows * SCREENHEIGHT) / image.cols));
+
 	if (image.rows > SCREENHEIGHT)
-		cv::resize(image, image, cv::Size((image.cols * SCREENHEIGHT / image.rows), SCREENHEIGHT));
+		cv::resize(image, image,
+		cv::Size((image.cols * SCREENHEIGHT / image.rows), SCREENHEIGHT));
 	return image;
 }
 
 void EncodePhase::loadImages() {
-	this->phase1Image = EncodePhase::toScreenSize(cv::imread("C:/Users/BEL/Uni/5. Semester/AVPRG/scannedPhotos/phase1.jpg"));
-	this->phase2Image = EncodePhase::toScreenSize(cv::imread("C:/Users/BEL/Uni/5. Semester/AVPRG/scannedPhotos/phase2.jpg"));
-	this->phase3Image = EncodePhase::toScreenSize(cv::imread("C:/Users/BEL/Uni/5. Semester/AVPRG/scannedPhotos/phase3.jpg"));
+	this->phase1Image = EncodePhase::toScreenSize(cv::imread(PATH"phase1.jpg"));
+	this->phase2Image = EncodePhase::toScreenSize(cv::imread(PATH"phase2.jpg"));
+	this->phase3Image = EncodePhase::toScreenSize(cv::imread(PATH"phase3.jpg"));
 }
 
 void EncodePhase::encodePhase(ScanParams* scanParams) {
@@ -28,42 +31,42 @@ void EncodePhase::encodePhase(ScanParams* scanParams) {
 			cv::Vec3b color2 = phase2Image.at<cv::Vec3b>(y,x);
 			cv::Vec3b color3 = phase3Image.at<cv::Vec3b>(y,x);
 
-			//std::cout << color1[1] << std::endl;
-
 			float phase1 = EncodePhase::averageBrightness(color1);
 			float phase2 = EncodePhase::averageBrightness(color2);
 			float phase3 = EncodePhase::averageBrightness(color3);
 
-			//std::cout << phase1 << std::endl;
-
 			float phaseRange = std::max<float>(std::max<float>(phase1, phase2), phase3)
 				- std::min<float>(std::min<float>(phase1, phase2), phase3);
 
-			//std::cout << phaseRange << std::endl;
-
-			// nicht sicher über <= operator!
 			scanParams->setMask(phaseRange <= scanParams->getNoiseThreshold(), y, x);
 
 
 
 			scanParams->setProcess((!(scanParams->getMask(y, x))), y, x);
-			//std::cout << scanParams->getMask(y, x) <<  "hello process" << x << y <<  std::endl;
 			scanParams->setDistance(phaseRange, y, x);
 			
-			scanParams->setPhase((float) (std::atan2(sqrt3 * (phase1 - phase3), 2 * phase2 - phase1 - phase3) / (2 * M_PI)), y, x);
+			scanParams->setPhase(
+				(float) (std::atan2(sqrt3 * (phase1 - phase3),
+				2 * phase2 - phase1 - phase3) / (2 * M_PI)),
+			y, x);
 
-			//HErausfinden wie blendColor in OPENCV funktioniert!
-			scanParams->setColors((blend(blend(color1, color2, 1), color3, 1)), y, x);
+			scanParams->setColors((blend
+				(blend(color1, color2, 1), color3, 1)),
+			y, x);
 		}
 	}
-	for(int y = 1; y < scanParams->getCalcHeight() -1; y++) {			// überprüfen ob calcHeight geändert wird!
-		for (int x = 1; x < scanParams->getCalcWidth() -1; x ++) {		// same!
+	for(int y = 1; y < scanParams->getCalcHeight() -1; y++) {			
+		for (int x = 1; x < scanParams->getCalcWidth() -1; x ++) {		
 			if (!scanParams->getMask(y, x)) {
 				scanParams->setDistance(
-					EncodePhase::diff(scanParams->getPhase(y, x), scanParams->getPhase(y, x - 1)) +
-					EncodePhase::diff(scanParams->getPhase(y, x), scanParams->getPhase(y, x + 1)) +
-					EncodePhase::diff(scanParams->getPhase(y, x), scanParams->getPhase(y - 1, x)) +
-					EncodePhase::diff(scanParams->getPhase(y, x), scanParams->getPhase(y + 1, x)) / 
+					EncodePhase::diff(scanParams->getPhase(y, x),
+									  scanParams->getPhase(y, x - 1)) +
+					EncodePhase::diff(scanParams->getPhase(y, x),
+									  scanParams->getPhase(y, x + 1)) +
+					EncodePhase::diff(scanParams->getPhase(y, x),
+									  scanParams->getPhase(y - 1, x)) +
+					EncodePhase::diff(scanParams->getPhase(y, x),
+									  scanParams->getPhase(y + 1, x)) / 
 					(scanParams->getDistance(y, x)), 
 				y, x);
 			}
