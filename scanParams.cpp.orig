@@ -6,7 +6,11 @@ ScanParams::ScanParams(int inputHeight, int inputWidth)
 	, noiseThreshold( 0.12)
 	, zScale(130)
 	, zSkew(24)
+<<<<<<< HEAD
 	, renderDetail(1) {	
+=======
+	, renderDetail(0) {	
+>>>>>>> c7ae59ce58d79877f65fba9d56895f8992eab38f
 
 	// allocate Memory for all Arrays
 	mask = new bool *[calcHeight];
