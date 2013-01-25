@@ -184,6 +184,3 @@ int CamCalib::camCalib()
 
 	
 }
-
-
-

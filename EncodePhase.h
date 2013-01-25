@@ -9,8 +9,6 @@ public:
 	EncodePhase(void);
 	~EncodePhase(void);
 
-	cv::Mat phase1Image, phase2Image, phase3Image;
-
 	cv::Mat toScreenSize(cv::Mat image);
 
 	void loadImages();

@@ -5,7 +5,7 @@
 #define _USE_MATH_DEFINES
 #define SCREENHEIGHT 640
 #define SCREENWIDTH 480
-#define PATH "C:\\Users\\Lukas\\Downloads\\ThreePhase-2-source\\ThreePhase\\img\\"
+#define PATH "C:/Users/BEL/Uni/5. Semester/AVPRG/scannedPhotos/"
 
 // end -->
 
@@ -24,7 +24,7 @@
 
 class ScanParams
 {
-public:
+private:
 	// <-- const Variables once Set -> readonly
 	std::string path;
 	int calcWidth;
