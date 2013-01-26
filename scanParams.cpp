@@ -3,9 +3,9 @@
 ScanParams::ScanParams(int inputHeight, int inputWidth)
 	: calcHeight(inputHeight)
 	, calcWidth(inputWidth)
-	, noiseThreshold( 0.12)
-	, zScale(130)
-	, zSkew(24)
+	, noiseThreshold( 0.1)
+	, zScale(150)
+	, zSkew(25)
 	, renderDetail(1) {	
 
 	// allocate Memory for all Arrays

@@ -1,4 +1,10 @@
 #include "CamCalib.h"
+#include <opencv2/opencv.hpp>
+#include <opencv2/highgui/highgui.hpp>
+#include <opencv2/calib3d/calib3d.hpp>
+#include <iostream>
+#include <string>
+#include <opencv2/core/core.hpp>
 
 CamCalib::CamCalib(void){}
 CamCalib::~CamCalib(void){}
@@ -6,15 +12,57 @@ CamCalib::~CamCalib(void){}
 using namespace cv;
 using namespace std;
 
-
-
-int CamCalib::camCalib()
+int camCalib()
 {
 	//Variablen Deklaration
-	int numShots = 1;
-	int numCornersHor;
-	int numCornersVer;
-	int videoInputNr;
+	int numShots = 0;
+	int numCornersHor=0;
+	int numCornersVer=0;
+	int videoInputNr=0;
+
+
+	//Videoinput
+	cout<<"bitte Kamera durch Zahleingabe selektieren"<<endl;
+	cout<<"0: Standardkamera"<<endl;
+	cin >> videoInputNr;
+	VideoCapture capture = VideoCapture(videoInputNr);
+
+	if(!capture.isOpened()){
+		cout<<"keine Kamera gefunden, bitte entweder Kamera anschliessen oder Standardkamera selektieren"<<endl;
+		cout<<" und Programm neustarten"<<endl;
+	}
+
+	int hor = capture.get(CV_CAP_PROP_FRAME_WIDTH);
+	int vert = capture.get(CV_CAP_PROP_FRAME_HEIGHT);
+
+
+	cout<< "die ausgewaehlte kamera arbeitet mit einer Aufloesung von "<<hor<<" auf "<<vert<<endl;
+
+
+	cout<<"hoehere kameraaufloesung waehlen? Zahleneingabe + bestaetigen "<<endl;
+	cout<<"1: 640 x 480 "<<endl;
+	cout<<"2: 1280 x 720 "<<endl;
+	cout<<"3: 1920 x 1080 "<<endl;
+	int res = 0;
+	cin >> res;
+	if (res == 1)
+	{
+
+		capture.set(CV_CAP_PROP_FRAME_WIDTH,640);
+		//capture.set(CV_CAP_PROP_FRAME_HEIGHT,480);
+	}
+	else if(res == 2){
+		capture.set(CV_CAP_PROP_FRAME_WIDTH,1280);
+		//capture.set(CV_CAP_PROP_FRAME_HEIGHT,720);
+	}
+	else if(res == 3){
+		//capture.set(CV_CAP_PROP_FRAME_WIDTH,1920);
+		capture.set(CV_CAP_PROP_FRAME_HEIGHT,1080);
+	}
+
+	else {cout<<"keine aenderung vorgenommen"<<endl;}
+
+
 
 
 	//Variablenwert Abfrage
@@ -58,46 +106,6 @@ int CamCalib::camCalib()
 
 
 
-	//Videoinput
-	cout<<"bitte Kamera durch Zahleingabe selektieren"<<endl;
-	cout<<"0: Standardkamera"<<endl;
-	cin >> videoInputNr;
-	VideoCapture capture = VideoCapture(1);
-
-	if(!capture.isOpened()){
-		cout<<"keine Kamera gefunden, bitte entweder Kamera anschliessen oder Standardkamera selektieren"<<endl;
-		cout<<" und Programm neustarten"<<endl;
-	}
-	
-	int hor = capture.get(CV_CAP_PROP_FRAME_WIDTH);
-	int vert = capture.get(CV_CAP_PROP_FRAME_HEIGHT);
-	
-
-	cout<< "die ausgewaehlte kamera arbeitet mit einer aufloesung von "<<hor<<" auf "<<vert<<endl;
-	
-	
-	cout<<"hoehere kameraaufloesung waehlen? zahleneingabe + bestaetigen "<<endl;
-	cout<<"1: 640 x 480 "<<endl;
-	cout<<"2: 1280 x 720 "<<endl;
-	cout<<"3: 1920 x 1080 "<<endl;
-	int res = 0;
-	cin >> res;
-	if (res == 1)
-	{
-
-		capture.set(CV_CAP_PROP_FRAME_WIDTH,640);
-		//capture.set(cv_cap_prop_frame_height,480);
-	}
-	else if(res == 2){
-		capture.set(CV_CAP_PROP_FRAME_WIDTH,1280);
-		//capture.set(cv_cap_prop_frame_height,720);
-	}
-	else if(res == 3){
-		//capture.set(cv_cap_prop_frame_width,1920);
-		capture.set(CV_CAP_PROP_FRAME_HEIGHT,1080);
-	}
-
-	else {cout<<"keine aenderung vorgenommen"<<endl;}
 
 	//Vektoren
 
@@ -112,7 +120,7 @@ int CamCalib::camCalib()
 	Mat image;
 	Mat greyImage;
 
-	//auf mat
+	//schnappschuss
 	capture >> image;
 
 
@@ -124,73 +132,58 @@ int CamCalib::camCalib()
 
 	//An important point here is that you’re essentially setting up the units of calibration. Suppose the squares in your chessboards were 30mm in size, and you supplied these coordinates as (0,0,0), (0, 30, 0), etc, you’d get all unknowns in millimeters.
 
-	
-
-
 	//Schleife solange numShots groesser als successes
-
 	while(successes<numShots)
 	{
 		//graukonvertierung des kamerabilds
-		cv::cvtColor(image, greyImage, CV_BGR2GRAY);
+		cvtColor(image, greyImage, CV_BGR2GRAY);
 
 		//findchessboardcorners
-		
-		bool found = cv::findChessboardCorners(image, boardSize, corners, CV_CALIB_CB_ADAPTIVE_THRESH | CV_CALIB_CB_FILTER_QUADS);
+		bool found = findChessboardCorners(image, boardSize, corners, CV_CALIB_CB_ADAPTIVE_THRESH | CV_CALIB_CB_FILTER_QUADS);
 
 		if(found)
 		{
-			cv::cornerSubPix(greyImage, corners, Size(11, 11), Size(-1, -1), TermCriteria(CV_TERMCRIT_EPS | CV_TERMCRIT_ITER, 30, 0.1));
-			cv::drawChessboardCorners(greyImage, boardSize, corners, found);
+			cornerSubPix(greyImage, corners, Size(11, 11), Size(-1, -1), TermCriteria(CV_TERMCRIT_EPS | CV_TERMCRIT_ITER, 30, 0.1));
+			drawChessboardCorners(greyImage, boardSize, corners, found);
 		}
 
 		//anzeigen der bilder
-		
 		imshow("win1", image);
-		
 		imshow("win2", greyImage);
-		
 
 		//neuer frame
 
 		capture >> image;
-		
-		int key = cv::waitKey(1);
+
+		int key = waitKey(1);
 
 		//speichern der zahlen und schleifenbruch
-		
 
 		if(successes>=numShots)
-			{
-				cout<<"Alle Bilder erfolgreich aufgenommen!"<<endl;
-				break;
-		}
+			break;
 
 		if(key==27)
-			break;
-	
-		if(found!=0 && (key==32))
+			return 0;
+
+		if(found!=0)
 		{
 			image_points.push_back(corners);
 			object_points.push_back(obj);
-			cout<<"Bild gespeichert!"<<endl;;
+			printf("Snap stored!\n");
 
 			successes++;
 
 			if(successes>=numShots)
-				cout<<"Alle Bilder erfolgreich aufgenommen!"<<endl;
 				break;
-			
 		}
-		
 	}
 	//Kallibrationsvariablen
-	cout<<"Kalibrationsvorbereitung..."<<endl;
+	cout<<"prepare calibration..."<<endl;
 	Mat intrinsic = Mat(3, 3, CV_32FC1);
 	Mat distCoeffs;
 	vector<Mat> rvecs;
 	vector<Mat> tvecs;
-	cout<<"beendet"<<endl;
+	cout<<"prepare calibration done."<<endl;
 
 
 	//focal length
@@ -199,35 +192,28 @@ int CamCalib::camCalib()
 
 
 	//kallibration
-	cout<<"Kalibration..."<<endl;
-	cv::calibrateCamera(object_points, image_points, image.size(), intrinsic, distCoeffs, rvecs, tvecs);
-	cout<<"beendet"<<endl;
+	cout<<"start calibration..."<<endl;
+	calibrateCamera(object_points, image_points, image.size(), intrinsic, distCoeffs, rvecs, tvecs);
+	cout<<"calibration done."<<endl;
 
 
-	cout<<"Kalibriertes Kamerabild"<<endl;
+
+	cout<<"show undistorted image..."<<endl;
 	Mat imageUndistorted;
 	while(1)
 	{
-
-
-
 		capture >> image;
-		cv::undistort(image, imageUndistorted, intrinsic, distCoeffs);
+		undistort(image, imageUndistorted, intrinsic, distCoeffs);
 
-		cv::imshow("win1", image);
-		cv::imshow("win3", imageUndistorted);
-		int key1 = waitKey(1);
-		if(key1==27)
-			break;
-
+		imshow("win1", image);
+		imshow("win3", imageUndistorted);
+		waitKey(1);
 
 
 	}
 
 	capture.release();
-	destroyAllWindows();
 
 	return 0;
-
-	
 }
+

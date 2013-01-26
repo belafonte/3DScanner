@@ -1,9 +1,38 @@
 #include "EncodePhase.h"
-#include "AdditionalFunctions.h"
+
 
 EncodePhase::EncodePhase(void) { }
 
 EncodePhase::~EncodePhase(void) { }
+
+
+cv::Mat EncodePhase::toScreenSize(cv::Mat image) {
+
+	//bei bedarf bild um 90grad drehen
+	
+	if(image.cols==640 && image.rows==480){
+		cv::transpose(image,image);
+	}
+
+	
+	if (image.cols > SCREENWIDTH) 
+		cv::resize(image, image,cv::Size(SCREENWIDTH,
+		(image.rows * SCREENHEIGHT) / image.cols));
+
+	if (image.rows > SCREENHEIGHT)
+		cv::resize(image, image,
+		cv::Size((image.cols * SCREENHEIGHT / image.rows), SCREENHEIGHT));
+	return image;
+}
+
+void EncodePhase::loadImages() {
+	this->phase1Image = EncodePhase::toScreenSize(cv::imread("C:/Users/Lukas/Downloads/ThreePhase-2-source/ThreePhase/img/captured/phase1.jpg"));
+	this->phase2Image = EncodePhase::toScreenSize(cv::imread("C:/Users/Lukas/Downloads/ThreePhase-2-source/ThreePhase/img/captured/phase2.jpg"));
+	this->phase3Image = EncodePhase::toScreenSize(cv::imread("C:/Users/Lukas/Downloads/ThreePhase-2-source/ThreePhase/img/captured/phase3.jpg"));
+}
+
+
+
 
 void EncodePhase::encodePhase(ScanParams* scanParams) {
 	float sqrt3 = std::sqrt(3.f);
@@ -11,11 +40,11 @@ void EncodePhase::encodePhase(ScanParams* scanParams) {
 		for(int x = 0; x < scanParams->getCalcWidth(); x++) {
 			int i = x + y * scanParams->getCalcWidth();
 
-			AdditionalFunctions *addF = new AdditionalFunctions();
+			
 
-			cv::Vec3b color1 = addF->phase1Image.at<cv::Vec3b>(y,x);
-			cv::Vec3b color2 = addF->phase2Image.at<cv::Vec3b>(y,x);
-			cv::Vec3b color3 = addF->phase3Image.at<cv::Vec3b>(y,x);
+			cv::Vec3b color1 = phase1Image.at<cv::Vec3b>(y,x);
+			cv::Vec3b color2 = phase2Image.at<cv::Vec3b>(y,x);
+			cv::Vec3b color3 = phase3Image.at<cv::Vec3b>(y,x);
 
 			float phase1 = EncodePhase::averageBrightness(color1);
 			float phase2 = EncodePhase::averageBrightness(color2);

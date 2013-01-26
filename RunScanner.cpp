@@ -13,6 +13,9 @@
 #include "EncodePhase.h"
 #include "PLYExporter.h"
 #include "CamCalib.h"
+#include "AdditionalFunctions.h"
+#include "CaptureScan.h"
+
 
 using namespace std;
 using namespace cv;
@@ -24,12 +27,19 @@ int main(void) {
 	DecodePhase* decodePhase = new DecodePhase();
 	EncodePhase* encodePhase = new EncodePhase();
 	PLYExporter* plyExporter = new PLYExporter();
-
+	
+	CaptureScan* captureScan = new CaptureScan();
 
 	//camCalib->camCalib();
+
+	captureScan->createScanPictures();
+
+	
 	cout<<"scan params..."<<endl;
+
 	ScanParams* scanParams = new ScanParams(640, 480);
 	cout<<"encode phase..."<<endl;
+	
 	cout<<"load images..."<<endl;
 	cout<<"encode phase 2..."<<endl;
 	encodePhase->encodePhase(scanParams);
