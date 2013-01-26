@@ -8,8 +8,9 @@ using namespace std;
 
 
 
-int CamCalib::camCalib()
+int CamCalib::camCalib(ScanParams * scanParams)
 {
+
 	//Variablen Deklaration
 	int numShots = 1;
 	int numCornersHor;
@@ -223,6 +224,8 @@ int CamCalib::camCalib()
 
 
 	}
+	scanParams->setDistCoeffs(distCoeffs);
+	scanParams->setIntrinsic(intrinsic);
 
 	capture.release();
 	destroyAllWindows();

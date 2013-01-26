@@ -22,25 +22,21 @@ using namespace cv;
 
 int main(void) {
 
-	//CamCalib* camCalib = new CamCalib();
+	ScanParams* scanParams = new ScanParams(640, 480);
 
+	CamCalib* camCalib = new CamCalib();
+	CaptureScan* captureScan = new CaptureScan();
 	DecodePhase* decodePhase = new DecodePhase();
 	EncodePhase* encodePhase = new EncodePhase();
 	PLYExporter* plyExporter = new PLYExporter();
 	
-	CaptureScan* captureScan = new CaptureScan();
 
-	//camCalib->camCalib();
+	camCalib->camCalib(scanParams);
+	captureScan->createScanPictures(scanParams);
 
-	captureScan->createScanPictures();
-
-	
-	cout<<"scan params..."<<endl;
-
-	ScanParams* scanParams = new ScanParams(640, 480);
 	cout<<"encode phase..."<<endl;
-	
 	cout<<"load images..."<<endl;
+	encodePhase->loadImages();
 	cout<<"encode phase 2..."<<endl;
 	encodePhase->encodePhase(scanParams);
 	cout<<"decode phase..."<<endl;

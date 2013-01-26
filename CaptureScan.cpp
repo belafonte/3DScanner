@@ -16,7 +16,7 @@ using namespace cv;
 using namespace std;
 
 
-void CaptureScan::createScanPictures() {
+void CaptureScan::createScanPictures(ScanParams *scanParams) {
 
 
 	//Mat erzeugen

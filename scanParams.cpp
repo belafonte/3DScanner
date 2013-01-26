@@ -37,6 +37,9 @@ ScanParams::ScanParams(int inputHeight, int inputWidth)
 	for( int i = 0 ; i < calcHeight ; i++ )
 		names[i] = new int[calcWidth];
 
+	intrinsic = cv::Mat(3, 3, CV_32FC1);
+
+
 	// Path to Images -- setting variable!
 	this->setPath();
 
@@ -115,6 +118,24 @@ int ScanParams::getNames(int y, int x) {
 void ScanParams::setNames(int value, int y, int x) {
 	this->names[y][x] = value;
 }
+
+
+cv::Mat ScanParams::getIntrinsic() {
+	return this->intrinsic;
+}
+void ScanParams::setIntrinsic(cv::Mat value) {
+	this->intrinsic = value;
+}
+
+
+cv::Mat ScanParams::getDistCoeffs() {
+	return this->distCoeffs;
+}
+void ScanParams::setDistCoeffs(cv::Mat value){
+	this->distCoeffs = value;
+}
+
+//runtime
 
 //runtime variables
 

@@ -5,7 +5,7 @@ public:
 	CaptureScan(void);
 	~CaptureScan(void);
 
-void createScanPictures();
+void createScanPictures(ScanParams *scanParams);
 
 };
 
