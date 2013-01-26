@@ -43,7 +43,7 @@ int CamCalib::camCalib(ScanParams * scanParams)
 
 	}
 
-	cout <<"Anzahl der fuer die Kallibration zu verwendenden Shots(mind.2): "<<endl;
+	cout <<"Anzahl der für die Kallibration zu verwendenden Shots(mind.2): "<<endl;
 	while(true){
 		cin >> numShots;
 		if(numShots <= 30 && numShots >=1){
@@ -60,12 +60,12 @@ int CamCalib::camCalib(ScanParams * scanParams)
 	Size boardSize = Size(numCornersHor, numCornersVer);
 
 
+
 	//Videoinput
 	cout<<"bitte Kamera durch Zahleingabe selektieren"<<endl;
 	cout<<"0: Standardkamera"<<endl;
 	cin >> videoInputNr;
-	VideoCapture capture = VideoCapture(videoInputNr);
-	scanParams->setVideoInputNr(videoInputNr);
+	VideoCapture capture = VideoCapture(1);
 
 	if(!capture.isOpened()){
 		cout<<"keine Kamera gefunden, bitte entweder Kamera anschliessen oder Standardkamera selektieren"<<endl;
@@ -201,7 +201,7 @@ int CamCalib::camCalib(ScanParams * scanParams)
 	cout<<"beendet"<<endl;
 
 
-	//brennweite
+	//focal length
 	intrinsic.ptr<float>(0)[0] = 1;
 	intrinsic.ptr<float>(1)[1] = 1;
 
