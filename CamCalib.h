@@ -1,4 +1,4 @@
-
+#include "scanParams.h"
 
 class CamCalib
 {

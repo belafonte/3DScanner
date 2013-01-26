@@ -1,10 +1,4 @@
 #include "CamCalib.h"
-#include <opencv2/opencv.hpp>
-#include <opencv2/highgui/highgui.hpp>
-#include <opencv2/calib3d/calib3d.hpp>
-#include <iostream>
-#include <string>
-#include <opencv2/core/core.hpp>
 
 CamCalib::CamCalib(void){}
 CamCalib::~CamCalib(void){}
@@ -98,27 +92,27 @@ int CamCalib::camCalib()
 	while(successes<numShots)
 	{
 		//graukonvertierung des kamerabilds
-		cvtColor(image, greyImage, CV_BGR2GRAY);
+		cv::cvtColor(image, greyImage, CV_BGR2GRAY);
 
 		//findchessboardcorners
 		
-		bool found = findChessboardCorners(image, boardSize, corners, CV_CALIB_CB_ADAPTIVE_THRESH | CV_CALIB_CB_FILTER_QUADS);
+		bool found = cv::findChessboardCorners(image, boardSize, corners, CV_CALIB_CB_ADAPTIVE_THRESH | CV_CALIB_CB_FILTER_QUADS);
 
 		if(found)
 		{
-			cornerSubPix(greyImage, corners, Size(11, 11), Size(-1, -1), TermCriteria(CV_TERMCRIT_EPS | CV_TERMCRIT_ITER, 30, 0.1));
-			drawChessboardCorners(greyImage, boardSize, corners, found);
+			cv::cornerSubPix(greyImage, corners, Size(11, 11), Size(-1, -1), TermCriteria(CV_TERMCRIT_EPS | CV_TERMCRIT_ITER, 30, 0.1));
+			cv::drawChessboardCorners(greyImage, boardSize, corners, found);
 		}
 
 		//anzeigen der bilder
 		
-		imshow("win1", greyImage);
+		cv::imshow("win1", greyImage);
 
 		//neuer frame
 
 		capture >> image;
 
-		int key = waitKey(1);
+		int key = cv::waitKey(1);
 
 		//speichern der zahlen und schleifenbruch
 		
@@ -159,7 +153,7 @@ int CamCalib::camCalib()
 
 	//kallibration
 	cout<<"start calibration..."<<endl;
-	calibrateCamera(object_points, image_points, image.size(), intrinsic, distCoeffs, rvecs, tvecs);
+	cv::calibrateCamera(object_points, image_points, image.size(), intrinsic, distCoeffs, rvecs, tvecs);
 	cout<<"calibration done."<<endl;
 
 
@@ -169,11 +163,11 @@ int CamCalib::camCalib()
 	while(1)
 	{
 		capture >> image;
-		undistort(image, imageUndistorted, intrinsic, distCoeffs);
+		cv::undistort(image, imageUndistorted, intrinsic, distCoeffs);
 
-		imshow("win1", image);
-		imshow("win3", imageUndistorted);
-		waitKey(1);
+		cv::imshow("win1", image);
+		cv::imshow("win3", imageUndistorted);
+		cv::waitKey(1);
 
 
 	}

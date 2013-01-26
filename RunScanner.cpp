@@ -19,19 +19,18 @@ using namespace cv;
 
 int main(void) {
 
-	CamCalib* camCalib = new CamCalib();
+	//CamCalib* camCalib = new CamCalib();
 
 	DecodePhase* decodePhase = new DecodePhase();
 	EncodePhase* encodePhase = new EncodePhase();
 	PLYExporter* plyExporter = new PLYExporter();
 
 
-	camCalib->camCalib();
+	//camCalib->camCalib();
 	cout<<"scan params..."<<endl;
 	ScanParams* scanParams = new ScanParams(640, 480);
 	cout<<"encode phase..."<<endl;
 	cout<<"load images..."<<endl;
-	encodePhase->loadImages();
 	cout<<"encode phase 2..."<<endl;
 	encodePhase->encodePhase(scanParams);
 	cout<<"decode phase..."<<endl;
