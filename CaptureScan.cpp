@@ -73,6 +73,7 @@ void CaptureScan::createScanPictures(ScanParams *scanParams) {
 			
 			destroyWindow("preview");
 			destroyWindow("Projektor");
+			destroyWindow("slider");
 			break;}
 
 
@@ -82,6 +83,7 @@ void CaptureScan::createScanPictures(ScanParams *scanParams) {
 	
 
 	//phase1
+	std::cout<<"beginn phase 1, bitte taste druecken"<<endl;
 	projector = imread("C:/Users/Lukas/Downloads/ThreePhase-2-source/ThreePhase/img/vertical/i1.png");
 	imshow("Projektor",projector);
 	waitKey(0);
@@ -100,6 +102,7 @@ void CaptureScan::createScanPictures(ScanParams *scanParams) {
 	}
 
 	//phase2
+	std::cout<<"beginn phase 2, bitte taste druecken"<<endl;
 	projector = imread("C:/Users/Lukas/Downloads/ThreePhase-2-source/ThreePhase/img/vertical/i2.png");
 	imshow("Projektor",projector);
 	waitKey(0);
@@ -118,6 +121,7 @@ void CaptureScan::createScanPictures(ScanParams *scanParams) {
 	}
 	
 	//phase3
+	std::cout<<"beginn phase 3, bitte taste druecken"<<endl;
 	projector = imread("C:/Users/Lukas/Downloads/ThreePhase-2-source/ThreePhase/img/vertical/i3.png");
 	imshow("Projektor",projector);
 	waitKey(0);
@@ -134,7 +138,7 @@ void CaptureScan::createScanPictures(ScanParams *scanParams) {
 		i++;
 		waitKey(10);
 	}
-	
+	std::cout<<"ende des Scans, berechnung wird initialisiert..."<<endl;
 	
 
 	
