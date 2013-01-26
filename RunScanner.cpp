@@ -51,8 +51,8 @@ int main(void) {
 	plyExporter->exportCloud(scanParams);
 	cout << "exporting Mesh" << endl;
 	plyExporter->exportMesh(scanParams);
-	cout << "fertig. eingabe zum beenden" << endl;
+	cout << "fertig. escape zum beenden" << endl;
 
-	cin.get();
+	if(waitKey(0)==27)
 	return 0;
 }

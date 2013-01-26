@@ -33,7 +33,7 @@ void PLYExporter::writeVertices(std::ofstream &file, ScanParams* scanParams) {
 }
 
 void PLYExporter::exportCloud(ScanParams* scanParams) {
-	std::ofstream file(PATH"cloud.ply");
+	std::ofstream file("./export/cloud.ply");
 	file << "ply\n";
 	file << "format ascii 1.0\n";
 	file << "element vertex " << PLYExporter::vertexCount(scanParams) << "\n";
@@ -109,7 +109,7 @@ void PLYExporter::writeFaces(std::ofstream &file, ScanParams* scanParams) {
 }
 
 void PLYExporter::exportMesh(ScanParams* scanParams) {
-		std::ofstream file(PATH"mesh.ply");
+		std::ofstream file("./export/mesh.ply");
 		file << "ply\n";
 		file << "format ascii 1.0\n";
 		file << "element vertex " << PLYExporter::vertexCount(scanParams) << "\n";

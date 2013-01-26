@@ -5,7 +5,7 @@
 #define _USE_MATH_DEFINES
 #define SCREENHEIGHT 640
 #define SCREENWIDTH 480
-#define PATH "C:\\Users\\Lukas\\Downloads\\ThreePhase-2-source\\ThreePhase\\img\\"
+#define PATH ".\\"
 
 // end -->
 
@@ -32,7 +32,7 @@ private:
 	// end -->
 
 	// <-- dynamic array
-	// für die ganzen Variable mit index x, y
+	// fuer die ganzen Variable mit index x, y
 
 	bool **mask;
 	bool **process;

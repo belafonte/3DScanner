@@ -19,6 +19,7 @@ int CamCalib::camCalib(ScanParams * scanParams)
 
 	cout <<"Kamera Kalibration initialisiert "<<endl;
 	cout <<"Abfrage der Schachbretteigenschaften: "<<endl;
+
 	//Variablenwert Abfrage
 	cout <<"Horizontal eingeschlossene Ecken:(mind.3) "<<endl;
 	while(true){
@@ -42,7 +43,7 @@ int CamCalib::camCalib(ScanParams * scanParams)
 
 	}
 
-	cout <<"Anzahl der für die Kallibration zu verwendenden Shots(mind.2): "<<endl;
+	cout <<"Anzahl der fuer die Kallibration zu verwendenden Shots(mind.2): "<<endl;
 	while(true){
 		cin >> numShots;
 		if(numShots <= 30 && numShots >=1){
@@ -101,6 +102,8 @@ int CamCalib::camCalib(ScanParams * scanParams)
 
 	else {cout<<"keine aenderung vorgenommen"<<endl;}
 
+
+
 	//Vektoren
 
 	vector <vector<Point3f >> object_points;
@@ -131,7 +134,7 @@ int CamCalib::camCalib(ScanParams * scanParams)
 
 	//Schleife solange numShots groesser als successes
 
-	while(successes<numShots)
+	while(successes<=numShots)
 	{
 		//graukonvertierung des kamerabilds
 		cv::cvtColor(image, greyImage, CV_BGR2GRAY);
@@ -171,20 +174,23 @@ int CamCalib::camCalib(ScanParams * scanParams)
 		if(key==27)
 			break;
 	
-		if(found!=0 && (key==32))
+		if(found!=0)
 		{
+			int snap = waitKey(500);
+			if (snap == 32){
 			image_points.push_back(corners);
 			object_points.push_back(obj);
 			cout<<"Bild gespeichert!"<<endl;;
 
 			successes++;
 
-			if(successes>=numShots)
+			if(successes>=numShots){
 				cout<<"Alle Bilder erfolgreich aufgenommen!"<<endl;
 				break;
-			
-		}
+				}
+			}
 		
+		}
 	}
 	//Kallibrationsvariablen
 	cout<<"Kalibrationsvorbereitung...";
@@ -195,7 +201,7 @@ int CamCalib::camCalib(ScanParams * scanParams)
 	cout<<"beendet"<<endl;
 
 
-	//focal length
+	//brennweite
 	intrinsic.ptr<float>(0)[0] = 1;
 	intrinsic.ptr<float>(1)[1] = 1;
 
@@ -215,11 +221,9 @@ int CamCalib::camCalib(ScanParams * scanParams)
 
 		capture >> image;
 		cv::undistort(image, imageUndistorted, intrinsic, distCoeffs);
-
-		cv::imshow("win1", image);
-		cv::imshow("win3", imageUndistorted);
+		cv::imshow("Calibrated Video", imageUndistorted);
 		int key1 = waitKey(1);
-		if(key1==27)
+		if(key1==32)
 			break;
 
 

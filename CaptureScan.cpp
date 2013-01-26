@@ -47,7 +47,8 @@ void CaptureScan::createScanPictures(ScanParams *scanParams) {
 	cv::undistort(preview, previewDist, scanParams->getIntrinsic(), scanParams->getDistCoeffs());
 	namedWindow("preview");
 	
-
+	bool parameters1 = true;
+	bool parameters2 = true;
 	//vorschau mit justierbarer helligkeit kontrast
 	while(true){
 		
@@ -61,7 +62,7 @@ void CaptureScan::createScanPictures(ScanParams *scanParams) {
 		
 
 		
-		capture.set(CV_CAP_PROP_CONTRAST,contrast-10);
+		capture.set(CV_CAP_PROP_CONTRAST,contrast);
 		capture.set(CV_CAP_PROP_BRIGHTNESS,brightness-50);
 
 			
@@ -72,13 +73,17 @@ void CaptureScan::createScanPictures(ScanParams *scanParams) {
 		imshow("preview",previewDist);
 
 		//vorschaubild
-		projector = imread("C:/Users/Lukas/Downloads/ThreePhase-2-source/ThreePhase/img/vertical/testscreen.png");
+		cv::namedWindow("Projektor");
+		projector = imread("./vertical/testscreen.png");
 		imshow("Projektor",projector);
+		
+		
+			
 
 
 		//esc to exit
 		int key = waitKey(1);
-		if(key==27){
+		if(key==32){
 			
 			destroyWindow("preview");
 			destroyWindow("Projektor");
@@ -89,11 +94,43 @@ void CaptureScan::createScanPictures(ScanParams *scanParams) {
 		
 		
 	}
+
+
+	//Setup-Parameter
+
+	cout<<"Geben sie nun bitte den ungefaehren Abstand von Projektor zur Kamera in cm ein"<<endl;
+	float scale;
+	cin>>scale;
+
+	if(scale>=20 && scale<=300){
+		scanParams->setZScale(scale);
+		parameters1 = false;
+	}
+	else{
+		cout<<"Ungueltige Eingabe, es wird ein Standardwert verwendet"<<endl;
+		parameters1 = false;
+	}
+
+
+
+	cout<<"Geben sie nun bitte den ungefaehren Winkel von Projektor zur Kamera in grad ein"<<endl;
+	float skew;
+	cin>>skew;
+
+	if(skew>=5 && skew<=80){
+		scanParams->setZSkew(skew);
+		parameters2 = false;
+	}
+	else{
+		cout<<"Ungueltige Eingabe, es wird ein Standardwert verwendet"<<endl;
+		parameters2 = false;
+
+	}
 	
 
 	//phase1
 	std::cout<<"beginn phase 1, bitte taste druecken"<<endl;
-	projector = imread("C:/Users/Lukas/Downloads/ThreePhase-2-source/ThreePhase/img/vertical/i1.png");
+	projector = imread("./vertical/i1.png");
 	imshow("Projektor",projector);
 	waitKey(0);
 	Mat tmpImageDist;
@@ -104,17 +141,18 @@ void CaptureScan::createScanPictures(ScanParams *scanParams) {
 		cv::undistort(tmpImage, tmpImageDist, scanParams->getIntrinsic(), scanParams->getDistCoeffs());
 
 		if(i==3){
-			imwrite("C:/Users/Lukas/Downloads/ThreePhase-2-source/ThreePhase/img/captured/phase1.jpg",tmpImageDist);
+			imwrite("./captured/phase1.jpg",tmpImageDist);
 			break;
 		}
 
 		i++;
 		waitKey(10);
+		
 	}
 
 	//phase2
 	std::cout<<"beginn phase 2, bitte taste druecken"<<endl;
-	projector = imread("C:/Users/Lukas/Downloads/ThreePhase-2-source/ThreePhase/img/vertical/i2.png");
+	projector = imread("./vertical/i2.png");
 	imshow("Projektor",projector);
 	waitKey(0);
 	i = 0;
@@ -124,7 +162,7 @@ void CaptureScan::createScanPictures(ScanParams *scanParams) {
 		cv::undistort(tmpImage, tmpImageDist, scanParams->getIntrinsic(), scanParams->getDistCoeffs());
 
 		if(i==3){
-			imwrite("C:/Users/Lukas/Downloads/ThreePhase-2-source/ThreePhase/img/captured/phase2.jpg",tmpImageDist);
+			imwrite("./captured/phase2.jpg",tmpImageDist);
 			break;
 		}
 
@@ -134,7 +172,7 @@ void CaptureScan::createScanPictures(ScanParams *scanParams) {
 	
 	//phase3
 	std::cout<<"beginn phase 3, bitte taste druecken"<<endl;
-	projector = imread("C:/Users/Lukas/Downloads/ThreePhase-2-source/ThreePhase/img/vertical/i3.png");
+	projector = imread("./vertical/i3.png");
 	imshow("Projektor",projector);
 	waitKey(0);
 	i = 0;
@@ -144,7 +182,7 @@ void CaptureScan::createScanPictures(ScanParams *scanParams) {
 		cv::undistort(tmpImage, tmpImageDist, scanParams->getIntrinsic(), scanParams->getDistCoeffs());
 
 		if(i==3){
-			imwrite("C:/Users/Lukas/Downloads/ThreePhase-2-source/ThreePhase/img/captured/phase3.jpg",tmpImageDist);
+			imwrite("./captured/phase3.jpg",tmpImageDist);
 			break;
 		}
 

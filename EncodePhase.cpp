@@ -26,9 +26,9 @@ cv::Mat EncodePhase::toScreenSize(cv::Mat image) {
 }
 
 void EncodePhase::loadImages() {
-	this->phase1Image = EncodePhase::toScreenSize(cv::imread("C:/Users/Lukas/Downloads/ThreePhase-2-source/ThreePhase/img/captured/phase1.jpg"));
-	this->phase2Image = EncodePhase::toScreenSize(cv::imread("C:/Users/Lukas/Downloads/ThreePhase-2-source/ThreePhase/img/captured/phase2.jpg"));
-	this->phase3Image = EncodePhase::toScreenSize(cv::imread("C:/Users/Lukas/Downloads/ThreePhase-2-source/ThreePhase/img/captured/phase3.jpg"));
+	this->phase1Image = EncodePhase::toScreenSize(cv::imread("./captured/phase1.jpg"));
+	this->phase2Image = EncodePhase::toScreenSize(cv::imread("./captured/phase2.jpg"));
+	this->phase3Image = EncodePhase::toScreenSize(cv::imread("./captured/phase3.jpg"));
 }
 
 

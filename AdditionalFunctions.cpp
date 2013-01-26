@@ -13,7 +13,7 @@ cv::Mat AdditionalFunctions::toScreenSize(cv::Mat image) {
 	if(image.cols==640 && image.rows==480){
 			cv::transpose(image,image);
 			}
-	imwrite("C:/img.jpg",image);
+	
 		
 
 	
@@ -30,7 +30,7 @@ cv::Mat AdditionalFunctions::toScreenSize(cv::Mat image) {
 }
 
 void AdditionalFunctions::loadImages() {
-	this->phase1Image = AdditionalFunctions::toScreenSize(cv::imread(PATH"captured/phase1.jpg"));
-	this->phase2Image = AdditionalFunctions::toScreenSize(cv::imread(PATH"captured/phase2.jpg"));
-	this->phase3Image = AdditionalFunctions::toScreenSize(cv::imread(PATH"captured/phase3.jpg"));
+	this->phase1Image = AdditionalFunctions::toScreenSize(cv::imread("./captured/phase1.jpg"));
+	this->phase2Image = AdditionalFunctions::toScreenSize(cv::imread("./captured/phase2.jpg"));
+	this->phase3Image = AdditionalFunctions::toScreenSize(cv::imread("./captured/phase3.jpg"));
 }
