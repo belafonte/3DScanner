@@ -22,6 +22,8 @@ using namespace cv;
 
 int main(void) {
 
+
+	//initialisierung
 	ScanParams* scanParams = new ScanParams(640, 480);
 
 	CamCalib* camCalib = new CamCalib();
@@ -29,6 +31,8 @@ int main(void) {
 	DecodePhase* decodePhase = new DecodePhase();
 	EncodePhase* encodePhase = new EncodePhase();
 	PLYExporter* plyExporter = new PLYExporter();
+
+	//programmstart
 	
 	cout<<"Programm Start durch Eingabe bestaetigen"<<endl;
 	cin.get();
@@ -55,4 +59,5 @@ int main(void) {
 
 	if(waitKey(0)==27)
 	return 0;
+	//programmende
 }

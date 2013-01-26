@@ -1,3 +1,6 @@
+//rekursiver sich aus der mitte fortpflanzender algorithmus
+//der die daten aus EncodePhase benutzt und sie in encodedPixel schreibt
+
 #include "DecodePhase.h"
 
 DecodePhase::DecodePhase(void) { }

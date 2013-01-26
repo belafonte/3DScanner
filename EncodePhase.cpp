@@ -1,3 +1,5 @@
+//bildanpassung und hauptalgorithmus des phaseshifting
+
 #include "EncodePhase.h"
 
 
@@ -14,7 +16,7 @@ cv::Mat EncodePhase::toScreenSize(cv::Mat image) {
 		cv::transpose(image,image);
 	}
 
-	
+	//bei bedarf bildgroessenaenderung
 	if (image.cols > SCREENWIDTH) 
 		cv::resize(image, image,cv::Size(SCREENWIDTH,
 		(image.rows * SCREENHEIGHT) / image.cols));
@@ -25,6 +27,7 @@ cv::Mat EncodePhase::toScreenSize(cv::Mat image) {
 	return image;
 }
 
+//einlesen der bilder
 void EncodePhase::loadImages() {
 	this->phase1Image = EncodePhase::toScreenSize(cv::imread("./captured/phase1.jpg"));
 	this->phase2Image = EncodePhase::toScreenSize(cv::imread("./captured/phase2.jpg"));
@@ -32,6 +35,7 @@ void EncodePhase::loadImages() {
 }
 
 
+//analysieren der bilder
 void EncodePhase::encodePhase(ScanParams* scanParams) {
 	float sqrt3 = std::sqrt(3.f);
 	for(int y = 0; y < scanParams->getCalcHeight(); y++) {
@@ -39,7 +43,7 @@ void EncodePhase::encodePhase(ScanParams* scanParams) {
 			int i = x + y * scanParams->getCalcWidth();
 
 			
-
+			//farbzuweisung und mittelwertberechnung
 			cv::Vec3b color1 = phase1Image.at<cv::Vec3b>(y,x);
 			cv::Vec3b color2 = phase2Image.at<cv::Vec3b>(y,x);
 			cv::Vec3b color3 = phase3Image.at<cv::Vec3b>(y,x);
@@ -48,21 +52,25 @@ void EncodePhase::encodePhase(ScanParams* scanParams) {
 			float phase2 = EncodePhase::averageBrightness(color2);
 			float phase3 = EncodePhase::averageBrightness(color3);
 
+			//errechnen der maximalen phaserange
 			float phaseRange = std::max<float>(std::max<float>(phase1, phase2), phase3)
 				- std::min<float>(std::min<float>(phase1, phase2), phase3);
 
+			//noise filter
 			scanParams->setMask(phaseRange <= scanParams->getNoiseThreshold(), y, x);
 
-
-
 			scanParams->setProcess((!(scanParams->getMask(y, x))), y, x);
+
+			//tiefenbestimmung
 			scanParams->setDistance(phaseRange, y, x);
 			
+			//phaseshifting algorithmus von Zang
 			scanParams->setPhase(
 				(float) (std::atan2(sqrt3 * (phase1 - phase3),
 				2 * phase2 - phase1 - phase3) / (2 * M_PI)),
 			y, x);
 
+			//blendmodus "lightest"
 			scanParams->setColors((blend
 				(blend(color1, color2, 1), color3, 1)),
 			y, x);
@@ -71,6 +79,7 @@ void EncodePhase::encodePhase(ScanParams* scanParams) {
 	for(int y = 1; y < scanParams->getCalcHeight() -1; y++) {			
 		for (int x = 1; x < scanParams->getCalcWidth() -1; x ++) {		
 			if (!scanParams->getMask(y, x)) {
+				//tiefen-bestimmung der bilder durch phasendifferenzen
 				scanParams->setDistance(
 					EncodePhase::diff(scanParams->getPhase(y, x),
 									  scanParams->getPhase(y, x - 1)) +
@@ -87,6 +96,8 @@ void EncodePhase::encodePhase(ScanParams* scanParams) {
 	}
 }
 
+
+//durchschnittlicher helligkeitswert
 float EncodePhase::averageBrightness(cv::Vec3b color) {
 	int red, green, blue;
 	red = color[2];
@@ -97,11 +108,15 @@ float EncodePhase::averageBrightness(cv::Vec3b color) {
 	return tmpVal;
 }
 
+
+//absoluter unterschied
 float EncodePhase::diff(float a, float b) {
 	float d = a < b ? b - a : a - b;
 	return d < .5f ? d : 1 - d;
 }
 
+
+//blendmodus, hellstes kommt durch
 cv::Vec3b EncodePhase::blend(cv::Vec3b pixel1, cv::Vec3b pixel2, int mode) {
 	cv::Vec3b out = NULL;
 	if (mode == 1) {

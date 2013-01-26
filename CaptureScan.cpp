@@ -1,8 +1,8 @@
 //zu tun
-//distort variablen uebergeben
+//
 //gewaehlte kamera uebergeben
-//evtl gewaehlte aufloesung uebergeben
-
+//
+//hier werden einstellungen fuer die kamera getroffen und die phasenpatterns projiziert und die bilder der kamera gespeichert
 
 #include "CaptureScan.h"
 
@@ -41,36 +41,31 @@ void CaptureScan::createScanPictures(ScanParams *scanParams) {
 
 	std::cout<<"3d-Scan vorbereitung startet"<<endl;
 	cv::namedWindow("slider");
+	cv::namedWindow("preview");
 	cv::createTrackbar("helligkeit","slider",&brightness,100);
 	cv::createTrackbar("kontrast","slider",&contrast,100);
+
+	//entzerren
 	capture >> preview;
 	cv::undistort(preview, previewDist, scanParams->getIntrinsic(), scanParams->getDistCoeffs());
-	namedWindow("preview");
 	
-	bool parameters1 = true;
-	bool parameters2 = true;
+	
+
 	//vorschau mit justierbarer helligkeit kontrast
 	while(true){
-		
-		
-		
 		
 		cv::getTrackbarPos("helligkeit","slider");
 		cv::getTrackbarPos("kontrast","slider");
 		
 		
-		
-
-		
 		capture.set(CV_CAP_PROP_CONTRAST,contrast);
 		capture.set(CV_CAP_PROP_BRIGHTNESS,brightness-50);
 
 			
-		
-
 		capture >> preview;
 		cv::undistort(preview, previewDist, scanParams->getIntrinsic(), scanParams->getDistCoeffs());
 		imshow("preview",previewDist);
+
 
 		//vorschaubild
 		cv::namedWindow("Projektor");
@@ -78,9 +73,6 @@ void CaptureScan::createScanPictures(ScanParams *scanParams) {
 		imshow("Projektor",projector);
 		
 		
-			
-
-
 		//esc to exit
 		int key = waitKey(1);
 		if(key==32){
@@ -89,12 +81,8 @@ void CaptureScan::createScanPictures(ScanParams *scanParams) {
 			destroyWindow("Projektor");
 			destroyWindow("slider");
 			break;}
-
-
-		
 		
 	}
-
 
 	//Setup-Parameter
 
@@ -102,13 +90,13 @@ void CaptureScan::createScanPictures(ScanParams *scanParams) {
 	float scale;
 	cin>>scale;
 
-	if(scale>=20 && scale<=300){
+	if(scale>=20 && scale<=300)
+	{
 		scanParams->setZScale(scale);
-		parameters1 = false;
 	}
-	else{
+	else
+	{
 		cout<<"Ungueltige Eingabe, es wird ein Standardwert verwendet"<<endl;
-		parameters1 = false;
 	}
 
 
@@ -117,14 +105,13 @@ void CaptureScan::createScanPictures(ScanParams *scanParams) {
 	float skew;
 	cin>>skew;
 
-	if(skew>=5 && skew<=80){
+	if(skew>=5 && skew<=80)
+	{
 		scanParams->setZSkew(skew);
-		parameters2 = false;
 	}
-	else{
+	else
+	{
 		cout<<"Ungueltige Eingabe, es wird ein Standardwert verwendet"<<endl;
-		parameters2 = false;
-
 	}
 	
 
