@@ -17,7 +17,8 @@ int CamCalib::camCalib(ScanParams * scanParams)
 	int numCornersVer;
 	int videoInputNr;
 
-
+	cout <<"Kamera Kalibration initialisiert "<<endl;
+	cout <<"Abfrage der Schachbretteigenschaften: "<<endl;
 	//Variablenwert Abfrage
 	cout <<"Horizontal eingeschlossene Ecken:(mind.3) "<<endl;
 	while(true){
@@ -77,7 +78,7 @@ int CamCalib::camCalib(ScanParams * scanParams)
 	cout<< "die ausgewaehlte kamera arbeitet mit einer aufloesung von "<<hor<<" auf "<<vert<<endl;
 	
 	
-	cout<<"hoehere kameraaufloesung waehlen? zahleneingabe + bestaetigen "<<endl;
+	cout<<"hoehere kameraaufloesung waehlen?(falls moeglich) zahleneingabe + bestaetigen "<<endl;
 	cout<<"1: 640 x 480 "<<endl;
 	cout<<"2: 1280 x 720 "<<endl;
 	cout<<"3: 1920 x 1080 "<<endl;
@@ -87,14 +88,14 @@ int CamCalib::camCalib(ScanParams * scanParams)
 	{
 
 		capture.set(CV_CAP_PROP_FRAME_WIDTH,640);
-		//capture.set(cv_cap_prop_frame_height,480);
+		capture.set(CV_CAP_PROP_FRAME_HEIGHT,480);
 	}
 	else if(res == 2){
 		capture.set(CV_CAP_PROP_FRAME_WIDTH,1280);
-		//capture.set(cv_cap_prop_frame_height,720);
+		capture.set(CV_CAP_PROP_FRAME_HEIGHT,720);
 	}
 	else if(res == 3){
-		//capture.set(cv_cap_prop_frame_width,1920);
+		capture.set(CV_CAP_PROP_FRAME_WIDTH,1920);
 		capture.set(CV_CAP_PROP_FRAME_HEIGHT,1080);
 	}
 
@@ -118,12 +119,12 @@ int CamCalib::camCalib(ScanParams * scanParams)
 
 
 
-	//assign a constant position to each vertex.
+	//position fuer jeden vertex
 	vector<Point3f> obj;
 	for(int j=0;j<numSquares;j++)
 		obj.push_back(Point3f(j/numCornersHor, j%numCornersHor, 0.0f));
 
-	//An important point here is that you’re essentially setting up the units of calibration. Suppose the squares in your chessboards were 30mm in size, and you supplied these coordinates as (0,0,0), (0, 30, 0), etc, you’d get all unknowns in millimeters.
+
 
 	
 

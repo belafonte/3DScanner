@@ -30,6 +30,8 @@ int main(void) {
 	EncodePhase* encodePhase = new EncodePhase();
 	PLYExporter* plyExporter = new PLYExporter();
 	
+	cout<<"Programm Start durch Eingabe bestaetigen"<<endl;
+	cin.get();
 
 	camCalib->camCalib(scanParams);
 	captureScan->createScanPictures(scanParams);
@@ -49,7 +51,7 @@ int main(void) {
 	plyExporter->exportCloud(scanParams);
 	cout << "exporting Mesh" << endl;
 	plyExporter->exportMesh(scanParams);
-	cout << "done. key to exit" << endl;
+	cout << "fertig. eingabe zum beenden" << endl;
 
 	cin.get();
 	return 0;

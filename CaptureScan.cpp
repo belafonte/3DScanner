@@ -21,12 +21,19 @@ void CaptureScan::createScanPictures(ScanParams *scanParams) {
 
 	//Mat erzeugen
 	cv::Mat preview;
+	Mat previewDist;
 	Mat tmpImage;
 	Mat projector;
 
 	//Videoinput
 	cv::VideoCapture capture = cv::VideoCapture(1);
+	//verzerrung aufheben
+
+	
+
+
 	//initialwerte festsetzen
+
 	int brightness = 50;
 	int contrast = 50;
 	int focus = 50;
@@ -37,6 +44,7 @@ void CaptureScan::createScanPictures(ScanParams *scanParams) {
 	cv::createTrackbar("helligkeit","slider",&brightness,100);
 	cv::createTrackbar("kontrast","slider",&contrast,100);
 	capture >> preview;
+	cv::undistort(preview, previewDist, scanParams->getIntrinsic(), scanParams->getDistCoeffs());
 	namedWindow("preview");
 	
 
@@ -60,7 +68,8 @@ void CaptureScan::createScanPictures(ScanParams *scanParams) {
 		
 
 		capture >> preview;
-		imshow("preview",preview);
+		cv::undistort(preview, previewDist, scanParams->getIntrinsic(), scanParams->getDistCoeffs());
+		imshow("preview",previewDist);
 
 		//vorschaubild
 		projector = imread("C:/Users/Lukas/Downloads/ThreePhase-2-source/ThreePhase/img/vertical/testscreen.png");
@@ -87,13 +96,15 @@ void CaptureScan::createScanPictures(ScanParams *scanParams) {
 	projector = imread("C:/Users/Lukas/Downloads/ThreePhase-2-source/ThreePhase/img/vertical/i1.png");
 	imshow("Projektor",projector);
 	waitKey(0);
+	Mat tmpImageDist;
 	int i = 0;
 	while(i<=3){
 		
 		capture >> tmpImage;
+		cv::undistort(tmpImage, tmpImageDist, scanParams->getIntrinsic(), scanParams->getDistCoeffs());
 
 		if(i==3){
-			imwrite("C:/Users/Lukas/Downloads/ThreePhase-2-source/ThreePhase/img/captured/phase1.jpg",tmpImage);
+			imwrite("C:/Users/Lukas/Downloads/ThreePhase-2-source/ThreePhase/img/captured/phase1.jpg",tmpImageDist);
 			break;
 		}
 
@@ -110,9 +121,10 @@ void CaptureScan::createScanPictures(ScanParams *scanParams) {
 	while(i<=3){
 
 		capture >> tmpImage;
+		cv::undistort(tmpImage, tmpImageDist, scanParams->getIntrinsic(), scanParams->getDistCoeffs());
 
 		if(i==3){
-			imwrite("C:/Users/Lukas/Downloads/ThreePhase-2-source/ThreePhase/img/captured/phase2.jpg",tmpImage);
+			imwrite("C:/Users/Lukas/Downloads/ThreePhase-2-source/ThreePhase/img/captured/phase2.jpg",tmpImageDist);
 			break;
 		}
 
@@ -129,9 +141,10 @@ void CaptureScan::createScanPictures(ScanParams *scanParams) {
 	while(i<=3){
 
 		capture >> tmpImage;
+		cv::undistort(tmpImage, tmpImageDist, scanParams->getIntrinsic(), scanParams->getDistCoeffs());
 
 		if(i==3){
-			imwrite("C:/Users/Lukas/Downloads/ThreePhase-2-source/ThreePhase/img/captured/phase3.jpg",tmpImage);
+			imwrite("C:/Users/Lukas/Downloads/ThreePhase-2-source/ThreePhase/img/captured/phase3.jpg",tmpImageDist);
 			break;
 		}
 
