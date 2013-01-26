@@ -55,7 +55,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>opencv_core242d.lib;opencv_highgui242d.lib;opencv_imgproc242d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>opencv_core242d.lib;opencv_highgui242d.lib;opencv_imgproc242d.lib;opencv_calib3d242d.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -76,6 +76,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="AdditionalFunctions.h" />
+    <ClInclude Include="CamCalib.h" />
+    <ClInclude Include="CaptureScan.h" />
     <ClInclude Include="DecodePhase.h" />
     <ClInclude Include="EncodedPixel.h" />
     <ClInclude Include="EncodePhase.h" />
@@ -83,6 +86,9 @@
     <ClInclude Include="scanParams.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AdditionalFunctions.cpp" />
+    <ClCompile Include="CamCalib.cpp" />
+    <ClCompile Include="CaptureScan.cpp" />
     <ClCompile Include="DecodePhase.cpp" />
     <ClCompile Include="EncodedPixel.cpp" />
     <ClCompile Include="EncodePhase.cpp" />

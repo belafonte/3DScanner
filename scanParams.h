@@ -17,7 +17,6 @@
 #include <iostream>
 #include <fstream>
 #include <vector>
-
 #include <opencv2/opencv.hpp>
 
 // end-->
@@ -42,6 +41,9 @@ private:
 	float **depth;
 	cv::Vec3b **colors;
 	int **names;
+
+	cv::Mat intrinsic;
+	cv::Mat distCoeffs;
 
 	// end -->
 
@@ -83,6 +85,12 @@ public:
 
 	int getNames(int y, int x);
 	void setNames(int value, int y, int x);
+
+	cv::Mat getIntrinsic();
+	void setIntrinsic(cv::Mat value);
+
+	cv::Mat getDistCoeffs();
+	void setDistCoeffs(cv::Mat value);
 
 	//runtime
 

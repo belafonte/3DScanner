@@ -32,8 +32,6 @@ void EncodePhase::loadImages() {
 }
 
 
-
-
 void EncodePhase::encodePhase(ScanParams* scanParams) {
 	float sqrt3 = std::sqrt(3.f);
 	for(int y = 0; y < scanParams->getCalcHeight(); y++) {

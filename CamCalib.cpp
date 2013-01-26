@@ -1,10 +1,4 @@
 #include "CamCalib.h"
-#include <opencv2/opencv.hpp>
-#include <opencv2/highgui/highgui.hpp>
-#include <opencv2/calib3d/calib3d.hpp>
-#include <iostream>
-#include <string>
-#include <opencv2/core/core.hpp>
 
 CamCalib::CamCalib(void){}
 CamCalib::~CamCalib(void){}
@@ -14,8 +8,9 @@ using namespace std;
 
 
 
-int CamCalib::camCalib()
+int CamCalib::camCalib(ScanParams * scanParams)
 {
+
 	//Variablen Deklaration
 	int numShots = 1;
 	int numCornersHor;
@@ -138,16 +133,16 @@ int CamCalib::camCalib()
 	while(successes<numShots)
 	{
 		//graukonvertierung des kamerabilds
-		cvtColor(image, greyImage, CV_BGR2GRAY);
+		cv::cvtColor(image, greyImage, CV_BGR2GRAY);
 
 		//findchessboardcorners
 		
-		bool found = findChessboardCorners(image, boardSize, corners, CV_CALIB_CB_ADAPTIVE_THRESH | CV_CALIB_CB_FILTER_QUADS);
+		bool found = cv::findChessboardCorners(image, boardSize, corners, CV_CALIB_CB_ADAPTIVE_THRESH | CV_CALIB_CB_FILTER_QUADS);
 
 		if(found)
 		{
-			cornerSubPix(greyImage, corners, Size(11, 11), Size(-1, -1), TermCriteria(CV_TERMCRIT_EPS | CV_TERMCRIT_ITER, 30, 0.1));
-			drawChessboardCorners(greyImage, boardSize, corners, found);
+			cv::cornerSubPix(greyImage, corners, Size(11, 11), Size(-1, -1), TermCriteria(CV_TERMCRIT_EPS | CV_TERMCRIT_ITER, 30, 0.1));
+			cv::drawChessboardCorners(greyImage, boardSize, corners, found);
 		}
 
 		//anzeigen der bilder
@@ -161,7 +156,7 @@ int CamCalib::camCalib()
 
 		capture >> image;
 		
-		int key = waitKey(1);
+		int key = cv::waitKey(1);
 
 		//speichern der zahlen und schleifenbruch
 		
@@ -206,7 +201,7 @@ int CamCalib::camCalib()
 
 	//kallibration
 	cout<<"Kalibration...";
-	calibrateCamera(object_points, image_points, image.size(), intrinsic, distCoeffs, rvecs, tvecs);
+	cv::calibrateCamera(object_points, image_points, image.size(), intrinsic, distCoeffs, rvecs, tvecs);
 	cout<<"beendet"<<endl;
 
 
@@ -218,10 +213,10 @@ int CamCalib::camCalib()
 
 
 		capture >> image;
-		undistort(image, imageUndistorted, intrinsic, distCoeffs);
+		cv::undistort(image, imageUndistorted, intrinsic, distCoeffs);
 
-		imshow("win1", image);
-		imshow("win3", imageUndistorted);
+		cv::imshow("win1", image);
+		cv::imshow("win3", imageUndistorted);
 		int key1 = waitKey(1);
 		if(key1==27)
 			break;
@@ -229,6 +224,8 @@ int CamCalib::camCalib()
 
 
 	}
+	scanParams->setDistCoeffs(distCoeffs);
+	scanParams->setIntrinsic(intrinsic);
 
 	capture.release();
 	destroyAllWindows();
