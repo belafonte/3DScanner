@@ -27,17 +27,15 @@ void CaptureScan::createScanPictures() {
 	//Videoinput
 	cv::VideoCapture capture = cv::VideoCapture(1);
 	//initialwerte festsetzen
-	int brightness = 20;
-	int contrast = 20;
-	int gain = 5;
-	int gamma = 10;
+	int brightness = 50;
+	int contrast = 50;
+	int focus = 50;
+	
 
 	std::cout<<"3d-Scan vorbereitung startet"<<endl;
 	cv::namedWindow("slider");
 	cv::createTrackbar("helligkeit","slider",&brightness,100);
 	cv::createTrackbar("kontrast","slider",&contrast,100);
-	cv::createTrackbar("gain","slider",&gain,100);
-	cv::createTrackbar("gain","slider",&gamma,100);
 	capture >> preview;
 	namedWindow("preview");
 	
@@ -50,18 +48,22 @@ void CaptureScan::createScanPictures() {
 		
 		cv::getTrackbarPos("helligkeit","slider");
 		cv::getTrackbarPos("kontrast","slider");
-		cv::getTrackbarPos("gain","slider");
-		cv::getTrackbarPos("gamma","slider");
+		
+		
+		
 
-		capture.set(CV_CAP_PROP_GAMMA,contrast);
-		capture.set(CV_CAP_PROP_GAIN,contrast);
-		capture.set(CV_CAP_PROP_CONTRAST,contrast);
-		capture.set(CV_CAP_PROP_BRIGHTNESS,brightness);
+		
+		capture.set(CV_CAP_PROP_CONTRAST,contrast-10);
+		capture.set(CV_CAP_PROP_BRIGHTNESS,brightness-50);
+
+			
+		
+
 		capture >> preview;
 		imshow("preview",preview);
 
 		//vorschaubild
-		projector = imread("C:/Users/Lukas/Downloads/ThreePhase-2-source/ThreePhase/img/vertical/i1.png");
+		projector = imread("C:/Users/Lukas/Downloads/ThreePhase-2-source/ThreePhase/img/vertical/testscreen.png");
 		imshow("Projektor",projector);
 
 

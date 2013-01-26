@@ -152,9 +152,9 @@ int CamCalib::camCalib()
 
 		//anzeigen der bilder
 		
-		imshow("win1", image);
+		//imshow("win1", image);
 		
-		imshow("win2", greyImage);
+		imshow("kamera kalibration", greyImage);
 		
 
 		//neuer frame
@@ -191,7 +191,7 @@ int CamCalib::camCalib()
 		
 	}
 	//Kallibrationsvariablen
-	cout<<"Kalibrationsvorbereitung..."<<endl;
+	cout<<"Kalibrationsvorbereitung...";
 	Mat intrinsic = Mat(3, 3, CV_32FC1);
 	Mat distCoeffs;
 	vector<Mat> rvecs;
@@ -205,7 +205,7 @@ int CamCalib::camCalib()
 
 
 	//kallibration
-	cout<<"Kalibration..."<<endl;
+	cout<<"Kalibration...";
 	calibrateCamera(object_points, image_points, image.size(), intrinsic, distCoeffs, rvecs, tvecs);
 	cout<<"beendet"<<endl;
 
