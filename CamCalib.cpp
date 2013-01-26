@@ -19,29 +19,29 @@ int CamCalib::camCalib(ScanParams * scanParams)
 
 
 	//Variablenwert Abfrage
-	cout <<"Horizontal eingeschlossene Ecken: "<<endl;
+	cout <<"Horizontal eingeschlossene Ecken:(mind.3) "<<endl;
 	while(true){
 		cin >> numCornersHor;
-		if(numCornersHor <= 10 && numCornersHor >=1){
+		if(numCornersHor <= 10 && numCornersHor >=3){
 			break;
 		}
 
-		else{cout<<"Bitte eine Zahl zwischen 1 und 10 eingeben"<<endl;}
+		else{cout<<"Bitte eine Zahl zwischen 3 und 10 eingeben"<<endl;}
 
 	}
 
-	cout <<"Vertikal eingeschlossene Ecken: "<<endl;
+	cout <<"Vertikal eingeschlossene Ecken:(mind.3) "<<endl;
 	while(true){
 		cin >> numCornersVer;
-		if(numCornersVer <= 10 && numCornersVer >=1){
+		if(numCornersVer <= 10 && numCornersVer >=3){
 			break;
 		}
 
-		else{cout<<"Bitte eine Zahl zwischen 1 und 10 eingeben"<<endl;}
+		else{cout<<"Bitte eine Zahl zwischen 3 und 10 eingeben"<<endl;}
 
 	}
 
-	cout <<"Anzahl der für die Kallibration zu verwendenden Shots: "<<endl;
+	cout <<"Anzahl der für die Kallibration zu verwendenden Shots(mind.2): "<<endl;
 	while(true){
 		cin >> numShots;
 		if(numShots <= 30 && numShots >=1){
