@@ -170,4 +170,6 @@ void ScanParams::setRenderDetail(int value) {
 	this->renderDetail;
 }
 
+
+
 // end -->

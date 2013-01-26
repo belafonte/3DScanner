@@ -26,7 +26,8 @@ void CaptureScan::createScanPictures(ScanParams *scanParams) {
 	Mat projector;
 
 	//Videoinput
-	cv::VideoCapture capture = cv::VideoCapture(1);
+	
+	VideoCapture capture = VideoCapture(scanParams->getVideoInputNr());
 	//verzerrung aufheben
 
 	

@@ -45,6 +45,8 @@ private:
 	cv::Mat intrinsic;
 	cv::Mat distCoeffs;
 
+
+
 	// end -->
 
 	// <-- runtime Variables 
@@ -92,7 +94,11 @@ public:
 	cv::Mat getDistCoeffs();
 	void setDistCoeffs(cv::Mat value);
 
+	
+
 	//runtime
+	int getVideoInputNr();
+	void setVideoInputNr(int value);
 
 	float getNoiseThreshold();
 	void setNoiseThreshold(float value);

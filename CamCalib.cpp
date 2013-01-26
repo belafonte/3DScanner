@@ -60,12 +60,12 @@ int CamCalib::camCalib(ScanParams * scanParams)
 	Size boardSize = Size(numCornersHor, numCornersVer);
 
 
-
 	//Videoinput
 	cout<<"bitte Kamera durch Zahleingabe selektieren"<<endl;
 	cout<<"0: Standardkamera"<<endl;
 	cin >> videoInputNr;
-	VideoCapture capture = VideoCapture(1);
+	VideoCapture capture = VideoCapture(videoInputNr);
+	scanParams->setVideoInputNr(videoInputNr);
 
 	if(!capture.isOpened()){
 		cout<<"keine Kamera gefunden, bitte entweder Kamera anschliessen oder Standardkamera selektieren"<<endl;
