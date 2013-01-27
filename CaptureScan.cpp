@@ -1,6 +1,4 @@
-//zu tun
-//
-//gewaehlte kamera uebergeben
+
 //
 //hier werden einstellungen fuer die kamera getroffen, phasenpatterns projiziert und die bilder der kamera gespeichert
 
@@ -104,6 +102,7 @@ void CaptureScan::createScanPictures(ScanParams *scanParams) {
 			break;}
 		
 	}
+	
 
 	//Setup-Parameter
 
@@ -135,11 +134,15 @@ void CaptureScan::createScanPictures(ScanParams *scanParams) {
 		std::cout<<"Ungueltige Eingabe, es wird ein Standardwert verwendet"<<std::endl;
 	}
 	
+	//versehentliche Tastatureingabe abfangen
+
+	cv::waitKey(50);
 
 	//phase1
 	std::cout<<"beginn phase 1, bitte leertaste druecken"<<std::endl;
 	projector = cv::imread("./vertical/i1.png");
 	imshow("Projektor",projector);
+	
 
 	while(cv::waitKey(0)!=32)
 		{
