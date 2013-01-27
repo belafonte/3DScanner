@@ -137,14 +137,15 @@ void CaptureScan::createScanPictures(ScanParams *scanParams) {
 	
 
 	//phase1
-	std::cout<<"beginn phase 1, bitte taste druecken"<<std::endl;
+	std::cout<<"beginn phase 1, bitte leertaste druecken"<<std::endl;
 	projector = cv::imread("./vertical/i1.png");
 	imshow("Projektor",projector);
-	/*if(cv::waitKey(0)==32)
+
+	while(cv::waitKey(0)!=32)
 		{
 
-		}*/
-	cv::waitKey(0);
+		}
+
 	cv::Mat tmpImageDist;
 	int i = 0;
 	while(i<=3)
@@ -165,10 +166,13 @@ void CaptureScan::createScanPictures(ScanParams *scanParams) {
 	}
 
 	//phase2
-	std::cout<<"beginn phase 2, bitte taste druecken"<<std::endl;
+	std::cout<<"beginn phase 2, bitte leertaste druecken"<<std::endl;
 	projector = cv::imread("./vertical/i2.png");
 	cv::imshow("Projektor",projector);
-	cv::waitKey(0);
+	while(cv::waitKey(0)!=32)
+	{
+	
+	}
 	i = 0;
 	while(i<=3){
 
@@ -185,10 +189,13 @@ void CaptureScan::createScanPictures(ScanParams *scanParams) {
 	}
 	
 	//phase3
-	std::cout<<"beginn phase 3, bitte taste druecken"<<std::endl;
+	std::cout<<"beginn phase 3, bitte leertaste druecken"<<std::endl;
 	projector = cv::imread("./vertical/i3.png");
 	cv::imshow("Projektor",projector);
-	cv::waitKey(0);
+	while(cv::waitKey(0)!=32)
+	{
+
+	}
 	i = 0;
 	while(i<=3){
 
