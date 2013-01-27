@@ -55,13 +55,13 @@ void EncodePhase::encodePhase(ScanParams* scanParams) {
 			//errechnen der maximalen phaserange
 			float phaseRange = std::max<float>(std::max<float>(phase1, phase2), phase3)
 				- std::min<float>(std::min<float>(phase1, phase2), phase3);
-
+			
 			//noise filter
 			scanParams->setMask(phaseRange <= scanParams->getNoiseThreshold(), y, x);
 
 			scanParams->setProcess((!(scanParams->getMask(y, x))), y, x);
 
-			//tiefenbestimmung
+			
 			scanParams->setDistance(phaseRange, y, x);
 			
 			//phaseshifting algorithmus von Zang
@@ -79,7 +79,7 @@ void EncodePhase::encodePhase(ScanParams* scanParams) {
 	for(int y = 1; y < scanParams->getCalcHeight() -1; y++) {			
 		for (int x = 1; x < scanParams->getCalcWidth() -1; x ++) {		
 			if (!scanParams->getMask(y, x)) {
-				//tiefen-bestimmung der bilder durch phasendifferenzen
+				
 				scanParams->setDistance(
 					EncodePhase::diff(scanParams->getPhase(y, x),
 									  scanParams->getPhase(y, x - 1)) +

@@ -160,7 +160,7 @@ int CamCalib::camCalib(ScanParams * scanParams)
 
 		capture >> image;
 		
-		int key = cv::waitKey(1);
+		int key = cv::waitKey(2);
 
 		//speichern der zahlen und schleifenbruch
 		
@@ -222,7 +222,7 @@ int CamCalib::camCalib(ScanParams * scanParams)
 		capture >> image;
 		cv::undistort(image, imageUndistorted, intrinsic, distCoeffs);
 		cv::imshow("Calibrated Video", imageUndistorted);
-		int key1 = cv::waitKey(1);
+		int key1 = cv::waitKey(2);
 		if(key1==32)
 			break;
 

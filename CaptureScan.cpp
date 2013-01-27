@@ -25,8 +25,6 @@ void CaptureScan::createScanPictures(ScanParams *scanParams) {
 
 	//Videoinput
 	cv::VideoCapture capture = cv::VideoCapture(1);
-	//verzerrung aufheben
-
 	
 
 
@@ -35,12 +33,13 @@ void CaptureScan::createScanPictures(ScanParams *scanParams) {
 	int brightness = 50;
 	int contrast = 50;
 	int focus = 50;
-	
+	int anzahlAufrufe=2;
 
 	std::cout<<"3d-Scan vorbereitung startet"<<std::endl;
 	cv::namedWindow("slider",CV_WINDOW_AUTOSIZE);
+	cv::namedWindow("preview",CV_WINDOW_AUTOSIZE);
 	cv::resizeWindow("slider",300,80);
-	cv::namedWindow("preview");
+	
 	cv::createTrackbar("helligkeit","slider",&brightness,100);
 	cv::createTrackbar("kontrast","slider",&contrast,100);
 
@@ -48,6 +47,9 @@ void CaptureScan::createScanPictures(ScanParams *scanParams) {
 	capture >> preview;
 	cv::undistort(preview, previewDist, scanParams->getIntrinsic(), scanParams->getDistCoeffs());
 	
+	//vorschaubild
+	cv::namedWindow("Projektor",CV_WINDOW_NORMAL);
+	projector = cv::imread("./vertical/testscreen.png");
 	
 
 	//vorschau mit justierbarer helligkeit kontrast
@@ -63,21 +65,41 @@ void CaptureScan::createScanPictures(ScanParams *scanParams) {
 			
 		capture >> preview;
 		cv::undistort(preview, previewDist, scanParams->getIntrinsic(), scanParams->getDistCoeffs());
+
+		//Fadenkreuz zur Mittelpunktausrichtung
+		cv::line(previewDist,cv::Point(315,0),cv::Point(315,480),10);
+		cv::line(previewDist,cv::Point(640,235),cv::Point(0,235),10);
+
+		
+		//kameravorschau
 		cv::imshow("preview",previewDist);
+		
+		
+		int key = cv::waitKey(2);
 
+		//fullscreen fuer projektorbild
+		if(key==102)
+		{
+			
+			if(anzahlAufrufe%2==0){
+			cv::setWindowProperty("Projektor",CV_WND_PROP_FULLSCREEN,CV_WINDOW_FULLSCREEN);
+			}
 
-		//vorschaubild
-		cv::namedWindow("Projektor");
-		projector = cv::imread("./vertical/testscreen.png");
+			else{
+			cv::setWindowProperty("Projektor",CV_WINDOW_NORMAL,CV_WINDOW_NORMAL);
+			}
+
+			anzahlAufrufe++;
+		}
+
+		//projektorvorschau
 		cv::imshow("Projektor",projector);
 		
-		
 		//esc to exit
-		int key = cv::waitKey(1);
+		
 		if(key==32){
 			
 			cv::destroyWindow("preview");
-			cv::destroyWindow("Projektor");
 			cv::destroyWindow("slider");
 			break;}
 		
@@ -118,18 +140,24 @@ void CaptureScan::createScanPictures(ScanParams *scanParams) {
 	std::cout<<"beginn phase 1, bitte taste druecken"<<std::endl;
 	projector = cv::imread("./vertical/i1.png");
 	imshow("Projektor",projector);
+	/*if(cv::waitKey(0)==32)
+		{
+
+		}*/
 	cv::waitKey(0);
 	cv::Mat tmpImageDist;
 	int i = 0;
-	while(i<=3){
+	while(i<=3)
+		{
 		
 		capture >> tmpImage;
 		cv::undistort(tmpImage, tmpImageDist, scanParams->getIntrinsic(), scanParams->getDistCoeffs());
 
-		if(i==3){
+			if(i==3)
+			{
 			cv::imwrite("./captured/phase1.jpg",tmpImageDist);
 			break;
-		}
+			}
 
 		i++;
 		cv::waitKey(10);
