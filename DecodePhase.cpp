@@ -1,5 +1,5 @@
-//rekursiver sich aus der mitte fortpflanzender algorithmus
-//der die daten aus EncodePhase benutzt und sie in encodedPixel schreibt
+//rekursiver sich aus der mitte fortpflanzender flood fill algorithmus
+//
 
 #include "DecodePhase.h"
 

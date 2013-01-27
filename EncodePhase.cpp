@@ -12,7 +12,7 @@ cv::Mat EncodePhase::toScreenSize(cv::Mat image) {
 
 	//bei bedarf bild um 90grad drehen
 	
-	if(image.cols==640 && image.rows==480){
+	if(image.cols>image.rows){
 		cv::transpose(image,image);
 	}
 
