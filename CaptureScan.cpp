@@ -38,7 +38,8 @@ void CaptureScan::createScanPictures(ScanParams *scanParams) {
 	
 
 	std::cout<<"3d-Scan vorbereitung startet"<<std::endl;
-	cv::namedWindow("slider");
+	cv::namedWindow("slider",CV_WINDOW_AUTOSIZE);
+	cv::resizeWindow("slider",300,80);
 	cv::namedWindow("preview");
 	cv::createTrackbar("helligkeit","slider",&brightness,100);
 	cv::createTrackbar("kontrast","slider",&contrast,100);
