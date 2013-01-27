@@ -1,10 +1,10 @@
+//kamerakalibration
+
 #include "CamCalib.h"
 
 CamCalib::CamCalib(void){}
 CamCalib::~CamCalib(void){}
 
-using namespace cv;
-using namespace std;
 
 
 
@@ -17,74 +17,74 @@ int CamCalib::camCalib(ScanParams * scanParams)
 	int numCornersVer;
 	int videoInputNr;
 
-	cout <<"Kamera Kalibration initialisiert "<<endl;
-	cout <<"Abfrage der Schachbretteigenschaften: "<<endl;
+	std::cout <<"Kamera Kalibration initialisiert "<<std::endl;
+	std::cout <<"Abfrage der Schachbretteigenschaften: "<<std::endl;
 
 	//Variablenwert Abfrage
-	cout <<"Horizontal eingeschlossene Ecken:(mind.3) "<<endl;
+	std::cout <<"Horizontal eingeschlossene Ecken:(mind.3) "<<std::endl;
 	while(true){
-		cin >> numCornersHor;
+		std::cin >> numCornersHor;
 		if(numCornersHor <= 10 && numCornersHor >=3){
 			break;
 		}
 
-		else{cout<<"Bitte eine Zahl zwischen 3 und 10 eingeben"<<endl;}
+		else{std::cout<<"Bitte eine Zahl zwischen 3 und 10 eingeben"<<std::endl;}
 
 	}
 
-	cout <<"Vertikal eingeschlossene Ecken:(mind.3) "<<endl;
+	std::cout <<"Vertikal eingeschlossene Ecken:(mind.3) "<<std::endl;
 	while(true){
-		cin >> numCornersVer;
+		std::cin >> numCornersVer;
 		if(numCornersVer <= 10 && numCornersVer >=3){
 			break;
 		}
 
-		else{cout<<"Bitte eine Zahl zwischen 3 und 10 eingeben"<<endl;}
+		else{std::cout<<"Bitte eine Zahl zwischen 3 und 10 eingeben"<<std::endl;}
 
 	}
 
-	cout <<"Anzahl der für die Kallibration zu verwendenden Shots(mind.2): "<<endl;
+	std::cout <<"Anzahl der für die Kallibration zu verwendenden Shots(mind.2): "<<std::endl;
 	while(true){
-		cin >> numShots;
+		std::cin >> numShots;
 		if(numShots <= 30 && numShots >=1){
 			break;
 		}
 
-		else{cout<<"Bitte eine Zahl zwischen 1 und 30 eingeben"<<endl;}
+		else{std::cout<<"Bitte eine Zahl zwischen 1 und 30 eingeben"<<std::endl;}
 
 	}
 
 
 	//Berechnung der Schachbrettgroesse
 	int numSquares = numCornersHor * numCornersVer;
-	Size boardSize = Size(numCornersHor, numCornersVer);
+	cv::Size boardSize = cv::Size(numCornersHor, numCornersVer);
 
 
 
 	//Videoinput
-	cout<<"bitte Kamera durch Zahleingabe selektieren"<<endl;
-	cout<<"0: Standardkamera"<<endl;
-	cin >> videoInputNr;
-	VideoCapture capture = VideoCapture(1);
+	std::cout<<"bitte Kamera durch Zahleingabe selektieren"<<std::endl;
+	std::cout<<"0: Standardkamera"<<std::endl;
+	std::cin >> videoInputNr;
+	cv::VideoCapture capture = cv::VideoCapture(1);
 
 	if(!capture.isOpened()){
-		cout<<"keine Kamera gefunden, bitte entweder Kamera anschliessen oder Standardkamera selektieren"<<endl;
-		cout<<" und Programm neustarten"<<endl;
+		std::cout<<"keine Kamera gefunden, bitte entweder Kamera anschliessen oder Standardkamera selektieren"<<std::endl;
+		std::cout<<" und Programm neustarten"<<std::endl;
 	}
 	
 	int hor = capture.get(CV_CAP_PROP_FRAME_WIDTH);
 	int vert = capture.get(CV_CAP_PROP_FRAME_HEIGHT);
 	
 
-	cout<< "die ausgewaehlte kamera arbeitet mit einer aufloesung von "<<hor<<" auf "<<vert<<endl;
+	std::cout<< "die ausgewaehlte kamera arbeitet mit einer aufloesung von "<<hor<<" auf "<<vert<<std::endl;
 	
 	
-	cout<<"hoehere kameraaufloesung waehlen?(falls moeglich) zahleneingabe + bestaetigen "<<endl;
-	cout<<"1: 640 x 480 "<<endl;
-	cout<<"2: 1280 x 720 "<<endl;
-	cout<<"3: 1920 x 1080 "<<endl;
+	std::cout<<"hoehere kameraaufloesung waehlen?(falls moeglich) zahleneingabe + bestaetigen "<<std::endl;
+	std::cout<<"1: 640 x 480 "<<std::endl;
+	std::cout<<"2: 1280 x 720 "<<std::endl;
+	std::cout<<"3: 1920 x 1080 "<<std::endl;
 	int res = 0;
-	cin >> res;
+	std::cin >> res;
 	if (res == 1)
 	{
 
@@ -100,22 +100,22 @@ int CamCalib::camCalib(ScanParams * scanParams)
 		capture.set(CV_CAP_PROP_FRAME_HEIGHT,1080);
 	}
 
-	else {cout<<"keine aenderung vorgenommen"<<endl;}
+	else {std::cout<<"keine aenderung vorgenommen"<<std::endl;}
 
 
 
 	//Vektoren
 
-	vector <vector<Point3f >> object_points;
-	vector <vector<Point2f >> image_points;
+	std::vector <std::vector<cv::Point3f >> object_points;
+	std::vector <std::vector<cv::Point2f >> image_points;
 
 
-	vector<Point2f> corners;
+	cv::vector<cv::Point2f> corners;
 	int successes=0;
 
 	//Kamerabilder
-	Mat image;
-	Mat greyImage;
+	cv::Mat image;
+	cv::Mat greyImage;
 
 	//auf mat
 	capture >> image;
@@ -123,9 +123,9 @@ int CamCalib::camCalib(ScanParams * scanParams)
 
 
 	//position fuer jeden vertex
-	vector<Point3f> obj;
+	std::vector<cv::Point3f> obj;
 	for(int j=0;j<numSquares;j++)
-		obj.push_back(Point3f(j/numCornersHor, j%numCornersHor, 0.0f));
+		obj.push_back(cv::Point3f(j/numCornersHor, j%numCornersHor, 0.0f));
 
 
 
@@ -145,15 +145,15 @@ int CamCalib::camCalib(ScanParams * scanParams)
 
 		if(found)
 		{
-			cv::cornerSubPix(greyImage, corners, Size(11, 11), Size(-1, -1), TermCriteria(CV_TERMCRIT_EPS | CV_TERMCRIT_ITER, 30, 0.1));
+			cv::cornerSubPix(greyImage, corners, cv::Size(11, 11), cv::Size(-1, -1), cv::TermCriteria(CV_TERMCRIT_EPS | CV_TERMCRIT_ITER, 30, 0.1));
 			cv::drawChessboardCorners(greyImage, boardSize, corners, found);
 		}
 
 		//anzeigen der bilder
 		
-		//imshow("win1", image);
+		//cv::imshow("win1", image);
 		
-		imshow("kamera kalibration", greyImage);
+		cv::imshow("kamera kalibration", greyImage);
 		
 
 		//neuer frame
@@ -167,7 +167,7 @@ int CamCalib::camCalib(ScanParams * scanParams)
 
 		if(successes>=numShots)
 			{
-				cout<<"Alle Bilder erfolgreich aufgenommen!"<<endl;
+				std::cout<<"Alle Bilder erfolgreich aufgenommen!"<<std::endl;
 				break;
 		}
 
@@ -176,16 +176,16 @@ int CamCalib::camCalib(ScanParams * scanParams)
 	
 		if(found!=0)
 		{
-			int snap = waitKey(500);
+			int snap = cv::waitKey(500);
 			if (snap == 32){
 			image_points.push_back(corners);
 			object_points.push_back(obj);
-			cout<<"Bild gespeichert!"<<endl;;
+			std::cout<<"Bild gespeichert!"<<std::endl;;
 
 			successes++;
 
 			if(successes>=numShots){
-				cout<<"Alle Bilder erfolgreich aufgenommen!"<<endl;
+				std::cout<<"Alle Bilder erfolgreich aufgenommen!"<<std::endl;
 				break;
 				}
 			}
@@ -193,12 +193,12 @@ int CamCalib::camCalib(ScanParams * scanParams)
 		}
 	}
 	//Kallibrationsvariablen
-	cout<<"Kalibrationsvorbereitung...";
-	Mat intrinsic = Mat(3, 3, CV_32FC1);
-	Mat distCoeffs;
-	vector<Mat> rvecs;
-	vector<Mat> tvecs;
-	cout<<"beendet"<<endl;
+	std::cout<<"Kalibrationsvorbereitung...";
+	cv::Mat intrinsic = cv::Mat(3, 3, CV_32FC1);
+	cv::Mat distCoeffs;
+	std::vector<cv::Mat> rvecs;
+	std::vector<cv::Mat> tvecs;
+	std::cout<<"beendet"<<std::endl;
 
 
 	//focal length
@@ -207,13 +207,13 @@ int CamCalib::camCalib(ScanParams * scanParams)
 
 
 	//kallibration
-	cout<<"Kalibration...";
+	std::cout<<"Kalibration...";
 	cv::calibrateCamera(object_points, image_points, image.size(), intrinsic, distCoeffs, rvecs, tvecs);
-	cout<<"beendet"<<endl;
+	std::cout<<"beendet"<<std::endl;
 
 
-	cout<<"Kalibriertes Kamerabild"<<endl;
-	Mat imageUndistorted;
+	std::cout<<"Kalibriertes Kamerabild"<<std::endl;
+	cv::Mat imageUndistorted;
 	while(1)
 	{
 
@@ -222,7 +222,7 @@ int CamCalib::camCalib(ScanParams * scanParams)
 		capture >> image;
 		cv::undistort(image, imageUndistorted, intrinsic, distCoeffs);
 		cv::imshow("Calibrated Video", imageUndistorted);
-		int key1 = waitKey(1);
+		int key1 = cv::waitKey(1);
 		if(key1==32)
 			break;
 
@@ -233,7 +233,7 @@ int CamCalib::camCalib(ScanParams * scanParams)
 	scanParams->setIntrinsic(intrinsic);
 
 	capture.release();
-	destroyAllWindows();
+	cv::destroyAllWindows();
 
 	return 0;
 

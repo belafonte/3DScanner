@@ -1,3 +1,5 @@
+//.ply export zu mesh und cloud
+
 #include "PLYExporter.h"
 
 PLYExporter::PLYExporter(void) { }

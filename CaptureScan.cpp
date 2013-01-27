@@ -2,7 +2,7 @@
 //
 //gewaehlte kamera uebergeben
 //
-//hier werden einstellungen fuer die kamera getroffen und die phasenpatterns projiziert und die bilder der kamera gespeichert
+//hier werden einstellungen fuer die kamera getroffen, phasenpatterns projiziert und die bilder der kamera gespeichert
 
 #include "CaptureScan.h"
 
@@ -12,8 +12,6 @@ CaptureScan::CaptureScan(void) { }
 CaptureScan::~CaptureScan(void) { }
 
 
-using namespace cv;
-using namespace std;
 
 
 void CaptureScan::createScanPictures(ScanParams *scanParams) {
@@ -21,9 +19,9 @@ void CaptureScan::createScanPictures(ScanParams *scanParams) {
 
 	//Mat erzeugen
 	cv::Mat preview;
-	Mat previewDist;
-	Mat tmpImage;
-	Mat projector;
+	cv::Mat previewDist;
+	cv::Mat tmpImage;
+	cv::Mat projector;
 
 	//Videoinput
 	cv::VideoCapture capture = cv::VideoCapture(1);
@@ -39,7 +37,7 @@ void CaptureScan::createScanPictures(ScanParams *scanParams) {
 	int focus = 50;
 	
 
-	std::cout<<"3d-Scan vorbereitung startet"<<endl;
+	std::cout<<"3d-Scan vorbereitung startet"<<std::endl;
 	cv::namedWindow("slider");
 	cv::namedWindow("preview");
 	cv::createTrackbar("helligkeit","slider",&brightness,100);
@@ -64,31 +62,31 @@ void CaptureScan::createScanPictures(ScanParams *scanParams) {
 			
 		capture >> preview;
 		cv::undistort(preview, previewDist, scanParams->getIntrinsic(), scanParams->getDistCoeffs());
-		imshow("preview",previewDist);
+		cv::imshow("preview",previewDist);
 
 
 		//vorschaubild
 		cv::namedWindow("Projektor");
-		projector = imread("./vertical/testscreen.png");
-		imshow("Projektor",projector);
+		projector = cv::imread("./vertical/testscreen.png");
+		cv::imshow("Projektor",projector);
 		
 		
 		//esc to exit
-		int key = waitKey(1);
+		int key = cv::waitKey(1);
 		if(key==32){
 			
-			destroyWindow("preview");
-			destroyWindow("Projektor");
-			destroyWindow("slider");
+			cv::destroyWindow("preview");
+			cv::destroyWindow("Projektor");
+			cv::destroyWindow("slider");
 			break;}
 		
 	}
 
 	//Setup-Parameter
 
-	cout<<"Geben sie nun bitte den ungefaehren Abstand von Projektor zur Kamera in cm ein"<<endl;
+	std::cout<<"Geben sie nun bitte den ungefaehren Abstand von Projektor zur Kamera in cm ein"<<std::endl;
 	float scale;
-	cin>>scale;
+	std::cin>>scale;
 
 	if(scale>=20 && scale<=300)
 	{
@@ -96,14 +94,14 @@ void CaptureScan::createScanPictures(ScanParams *scanParams) {
 	}
 	else
 	{
-		cout<<"Ungueltige Eingabe, es wird ein Standardwert verwendet"<<endl;
+		std::cout<<"Ungueltige Eingabe, es wird ein Standardwert verwendet"<<std::endl;
 	}
 
 
 
-	cout<<"Geben sie nun bitte den ungefaehren Winkel von Projektor zur Kamera in grad ein"<<endl;
+	std::cout<<"Geben sie nun bitte den ungefaehren Winkel von Projektor zur Kamera in grad ein"<<std::endl;
 	float skew;
-	cin>>skew;
+	std::cin>>skew;
 
 	if(skew>=5 && skew<=80)
 	{
@@ -111,16 +109,16 @@ void CaptureScan::createScanPictures(ScanParams *scanParams) {
 	}
 	else
 	{
-		cout<<"Ungueltige Eingabe, es wird ein Standardwert verwendet"<<endl;
+		std::cout<<"Ungueltige Eingabe, es wird ein Standardwert verwendet"<<std::endl;
 	}
 	
 
 	//phase1
-	std::cout<<"beginn phase 1, bitte taste druecken"<<endl;
-	projector = imread("./vertical/i1.png");
+	std::cout<<"beginn phase 1, bitte taste druecken"<<std::endl;
+	projector = cv::imread("./vertical/i1.png");
 	imshow("Projektor",projector);
-	waitKey(0);
-	Mat tmpImageDist;
+	cv::waitKey(0);
+	cv::Mat tmpImageDist;
 	int i = 0;
 	while(i<=3){
 		
@@ -128,20 +126,20 @@ void CaptureScan::createScanPictures(ScanParams *scanParams) {
 		cv::undistort(tmpImage, tmpImageDist, scanParams->getIntrinsic(), scanParams->getDistCoeffs());
 
 		if(i==3){
-			imwrite("./captured/phase1.jpg",tmpImageDist);
+			cv::imwrite("./captured/phase1.jpg",tmpImageDist);
 			break;
 		}
 
 		i++;
-		waitKey(10);
+		cv::waitKey(10);
 		
 	}
 
 	//phase2
-	std::cout<<"beginn phase 2, bitte taste druecken"<<endl;
-	projector = imread("./vertical/i2.png");
-	imshow("Projektor",projector);
-	waitKey(0);
+	std::cout<<"beginn phase 2, bitte taste druecken"<<std::endl;
+	projector = cv::imread("./vertical/i2.png");
+	cv::imshow("Projektor",projector);
+	cv::waitKey(0);
 	i = 0;
 	while(i<=3){
 
@@ -149,19 +147,19 @@ void CaptureScan::createScanPictures(ScanParams *scanParams) {
 		cv::undistort(tmpImage, tmpImageDist, scanParams->getIntrinsic(), scanParams->getDistCoeffs());
 
 		if(i==3){
-			imwrite("./captured/phase2.jpg",tmpImageDist);
+			cv::imwrite("./captured/phase2.jpg",tmpImageDist);
 			break;
 		}
 
 		i++;
-		waitKey(10);
+		cv::waitKey(10);
 	}
 	
 	//phase3
-	std::cout<<"beginn phase 3, bitte taste druecken"<<endl;
-	projector = imread("./vertical/i3.png");
-	imshow("Projektor",projector);
-	waitKey(0);
+	std::cout<<"beginn phase 3, bitte taste druecken"<<std::endl;
+	projector = cv::imread("./vertical/i3.png");
+	cv::imshow("Projektor",projector);
+	cv::waitKey(0);
 	i = 0;
 	while(i<=3){
 
@@ -169,14 +167,14 @@ void CaptureScan::createScanPictures(ScanParams *scanParams) {
 		cv::undistort(tmpImage, tmpImageDist, scanParams->getIntrinsic(), scanParams->getDistCoeffs());
 
 		if(i==3){
-			imwrite("./captured/phase3.jpg",tmpImageDist);
+			cv::imwrite("./captured/phase3.jpg",tmpImageDist);
 			break;
 		}
 
 		i++;
-		waitKey(10);
+		cv::waitKey(10);
 	}
-	std::cout<<"ende des Scans, berechnung wird initialisiert..."<<endl;
+	std::cout<<"ende des Scans, berechnung wird initialisiert..."<<std::endl;
 	
 
 	
