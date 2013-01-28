@@ -22,6 +22,7 @@ void CaptureScan::createScanPictures(ScanParams *scanParams) {
 	cv::Mat projector;
 
 	//Videoinput
+
 	cv::VideoCapture capture = cv::VideoCapture(1);
 	
 
